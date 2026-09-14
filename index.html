@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ремонт на покриви Варна | Иван Георгиев — 088 881 6910</title>
+<meta name="description" content="Ремонт на покриви във Варна и областта. Пренареждане на керемиди, нова покривна конструкция, улуци, обшивки, хидроизолация и отстраняване на течове. Безплатен оглед, гаранция, 20% отстъпка за пенсионери. Тел. 088 881 6910.">
+<meta name="keywords" content="ремонт на покриви Варна, пренареждане на керемиди, хидроизолация, отстраняване на течове, улуци, покривна конструкция, майстор покриви">
+<meta name="author" content="Иван Георгиев">
+<meta name="theme-color" content="#0e141b">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://ivan-pokrivi.bg/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="bg_BG">
+<meta property="og:title" content="Ремонт на покриви Варна | Иван Георгиев">
+<meta property="og:description" content="Керемиди, конструкции, улуци, хидроизолация, течове. Безплатен оглед и оферта. Тел. 088 881 6910.">
+<meta property="og:site_name" content="Иван Георгиев — Ремонт на покриви">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e141b'/%3E%3Cpath d='M32 14 54 32h-8L32 21 18 32h-8z' fill='%23ffc21a'/%3E%3Cpath d='M32 28 46 39h-6l-8-6-8 6h-6z' fill='%23ffc21a' opacity='.75'/%3E%3Cpath d='M32 40l10 8H22z' fill='%23ffc21a' opacity='.5'/%3E%3C/svg%3E">
+
+<style>
+/* ============ 1. ДИЗАЙН СИСТЕМА ============ */
+:root{
+  --ink:#0e141b;          /* основно тъмно */
+  --ink-2:#151e29;        /* тъмно 2 */
+  --ink-3:#1d2836;        /* карти върху тъмно */
+  --accent:#ffc21a;       /* жълто — инструменти/безопасност */
+  --accent-d:#e9a900;
+  --accent-2:#ff7a18;     /* оранжев акцент */
+  --paper:#f4f6f8;        /* светъл фон */
+  --white:#fff;
+  --text:#1b232d;         /* текст върху светло */
+  --muted:#5b6775;        /* второстепенен текст */
+  --muted-d:#9aa8b8;      /* второстепенен върху тъмно */
+  --line:#e2e7ec;
+  --line-d:rgba(255,255,255,.12);
+  --ok:#27c46b;
+  --r:14px;               /* радиус */
+  --r-s:10px;
+  --wrap:1120px;
+  --shadow:0 10px 30px rgba(14,20,27,.08);
+  --shadow-lg:0 18px 50px rgba(14,20,27,.16);
+  --bar:64px;             /* височина на долната лента (моб.) */
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--text);
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  padding-bottom:var(--bar); /* място за фиксираната лента */
+}
+img,svg{max-width:100%; display:block}
+a{color:inherit}
+h1,h2,h3{line-height:1.15; margin:0 0 .5em; font-weight:800; letter-spacing:-.02em}
+h1{font-size:clamp(30px,7.2vw,54px); text-transform:uppercase}
+h2{font-size:clamp(25px,4.6vw,38px)}
+h3{font-size:19px; letter-spacing:-.01em}
+p{margin:0 0 1em}
+.wrap{width:100%; max-width:var(--wrap); margin-inline:auto; padding-inline:18px}
+section{padding-block:clamp(48px,7vw,84px)}
+section[id]{scroll-margin-top:76px}  /* да не се крие заглавието под sticky хедъра */
+.sec-head{max-width:660px; margin-bottom:34px}
+.sec-head p{color:var(--muted); margin:0; font-size:17px}
+.kicker{
+  display:inline-flex; align-items:center; gap:8px; margin:0 0 12px;
+  font-size:13px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--accent-d);
+}
+.kicker::before{content:""; width:26px; height:3px; background:var(--accent); border-radius:2px}
+.dark{background:var(--ink); color:#eef2f6}
+.dark h2{color:#fff}
+.dark .sec-head p{color:var(--muted-d)}
+.dark .kicker{color:var(--accent)}
+
+/* ---- бутони ---- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:15px 24px; border-radius:var(--r-s); border:2px solid transparent;
+  font:inherit; font-weight:800; font-size:17px; text-decoration:none; cursor:pointer;
+  transition:transform .12s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+  min-height:52px; white-space:nowrap;
+}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:20px; height:20px; flex:none}
+.btn-call{background:var(--accent); color:var(--ink); box-shadow:0 8px 22px rgba(255,194,26,.3)}
+.btn-call:hover{background:var(--accent-d)}
+.btn-viber{background:#7360f2; color:#fff}
+.btn-viber:hover{background:#6250d8}
+.btn-ghost{border-color:var(--line-d); color:#fff; background:transparent}
+.btn-ghost:hover{background:rgba(255,255,255,.08)}
+.btn-dark{background:var(--ink); color:#fff}
+.btn-dark:hover{background:var(--ink-2)}
+.btn-wide{width:100%}
+
+/* ============ 2. ЛОГО ============ */
+.logo{display:flex; align-items:center; gap:11px; text-decoration:none; flex:none}
+.logo-mark{width:42px; height:42px; flex:none}
+.logo-txt{display:flex; flex-direction:column; line-height:1.05}
+.logo-txt b{font-size:16px; font-weight:900; letter-spacing:.01em; text-transform:uppercase}
+.logo-txt span{font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-d); font-weight:700}
+.dark .logo-txt span,.hdr .logo-txt span{color:var(--accent-d)}
+
+/* ============ 3. ХЕДЪР ============ */
+.hdr{
+  position:sticky; top:0; z-index:50; background:rgba(255,255,255,.95);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line);
+}
+.hdr .wrap{display:flex; align-items:center; gap:12px; height:68px; min-width:0}
+.logo-txt{min-width:0}
+.logo-txt b,.logo-txt span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.nav{display:none; margin-left:auto; gap:24px; font-size:15px; font-weight:600}
+.nav a{text-decoration:none; color:var(--muted); padding:6px 0; border-bottom:2px solid transparent}
+.nav a:hover{color:var(--text); border-color:var(--accent)}
+.hdr-cta{margin-left:auto; padding:11px 18px; min-height:44px; font-size:16px}
+.nav+.hdr-cta{margin-left:0}
+@media(min-width:900px){.nav{display:flex}}
+/* на тесни телефони хедър-бутонът остава само с икона — номерът е в долната лента */
+@media(max-width:560px){
+  .hdr-cta span{display:none}
+  .hdr-cta{padding:11px 15px}
+}
+
+/* ============ 4. HERO ============ */
+.hero{position:relative; background:var(--ink); color:#fff; overflow:hidden; padding-block:clamp(38px,6vw,72px) clamp(48px,7vw,84px)}
+/* декоративен „керемиден" фон */
+.hero::before{
+  content:""; position:absolute; inset:0; opacity:.55;
+  background:
+    radial-gradient(900px 420px at 78% -8%, rgba(255,194,26,.16), transparent 62%),
+    radial-gradient(700px 400px at 5% 105%, rgba(255,122,24,.1), transparent 60%),
+    repeating-linear-gradient(135deg, rgba(255,255,255,.028) 0 2px, transparent 2px 13px);
+}
+.hero .wrap{position:relative; z-index:1}
+.hero-grid{display:grid; gap:34px; align-items:center}
+@media(min-width:960px){.hero-grid{grid-template-columns:1.08fr .92fr; gap:48px}}
+.status{
+  display:inline-flex; align-items:center; gap:9px; margin-bottom:18px;
+  padding:8px 15px 8px 12px; border-radius:100px; background:rgba(255,255,255,.07);
+  border:1px solid var(--line-d); font-size:14px; font-weight:700;
+}
+.dot{width:9px; height:9px; border-radius:50%; background:var(--ok); flex:none; box-shadow:0 0 0 4px rgba(39,196,107,.22)}
+.status.off .dot{background:var(--accent-2); box-shadow:0 0 0 4px rgba(255,122,24,.22)}
+.status small{font-weight:600; color:var(--muted-d)}
+.hero h1{margin-bottom:16px}
+.hero h1 em{font-style:normal; color:var(--accent); display:block}
+.lead{font-size:clamp(17px,2.3vw,20px); color:#d6dee7; max-width:56ch; margin-bottom:24px}
+.lead b{color:#fff}
+.hero-btns{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:22px}
+.hero-btns .btn{flex:1 1 220px}
+.perks{display:flex; flex-wrap:wrap; gap:10px 20px; list-style:none; padding:0; margin:0; font-size:15px; font-weight:600; color:#cfd9e3}
+.perks li{display:flex; align-items:center; gap:8px}
+.perks svg{width:18px; height:18px; color:var(--accent); flex:none}
+.badge-disc{
+  display:inline-flex; align-items:center; gap:10px; margin-bottom:20px; padding:10px 18px;
+  background:var(--accent); color:var(--ink); border-radius:var(--r-s);
+  font-weight:900; font-size:16px; box-shadow:0 8px 22px rgba(255,194,26,.22);
+}
+.badge-disc b{font-size:20px}
+/* карта „спешно" */
+.hero-card{
+  background:linear-gradient(160deg,var(--ink-3),#141c26); border:1px solid var(--line-d);
+  border-radius:var(--r); padding:26px 24px; box-shadow:var(--shadow-lg);
+}
+.hero-card .urgent{
+  display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:800;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink); background:var(--accent-2);
+  padding:6px 12px; border-radius:6px; margin-bottom:16px;
+}
+.hero-card h2{font-size:22px; color:#fff; margin-bottom:8px}
+.hero-card p{color:var(--muted-d); font-size:15.5px}
+.phone-big{
+  display:flex; align-items:center; gap:12px; margin:18px 0 14px; text-decoration:none;
+  font-size:clamp(26px,6vw,34px); font-weight:900; color:var(--accent); letter-spacing:-.01em;
+}
+.phone-big svg{width:30px; height:30px; flex:none}
+.hero-card .btn{width:100%}
+.sign{margin-top:16px; padding-top:16px; border-top:1px solid var(--line-d); display:flex; align-items:center; gap:12px}
+.sign-av{
+  width:44px; height:44px; border-radius:50%; flex:none; display:grid; place-items:center;
+  background:var(--accent); color:var(--ink); font-weight:900; font-size:16px;
+}
+.sign b{display:block; font-size:15px; color:#fff}
+.sign span{font-size:13.5px; color:var(--muted-d)}
+
+/* ============ 5. УСЛУГИ ============ */
+.cards{display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r);
+  padding:22px 20px; transition:transform .16s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:#cfd7e0}
+.ico{
+  width:50px; height:50px; border-radius:12px; display:grid; place-items:center; margin-bottom:14px;
+  background:linear-gradient(145deg,#fff3cf,#ffe08a); color:#7a5a00;
+}
+.ico svg{width:26px; height:26px}
+.card h3{margin-bottom:6px}
+.card p{margin:0; font-size:15.5px; color:var(--muted)}
+
+/* ============ 6. ЗАЩО МЕН + БРОЯЧИ ============ */
+.stats{display:grid; gap:14px; grid-template-columns:repeat(2,1fr); margin-bottom:44px}
+@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{
+  background:var(--ink-3); border:1px solid var(--line-d); border-radius:var(--r);
+  padding:22px 18px; text-align:center;
+}
+.stat b{display:block; font-size:clamp(30px,5.4vw,40px); font-weight:900; color:var(--accent); line-height:1}
+.stat span{display:block; margin-top:7px; font-size:14.5px; color:var(--muted-d); font-weight:600}
+.usps{display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.usp{display:flex; gap:14px; padding:20px; background:var(--ink-3); border:1px solid var(--line-d); border-radius:var(--r)}
+.usp .ico{margin:0; flex:none; width:44px; height:44px; border-radius:10px; background:rgba(255,194,26,.14); color:var(--accent)}
+.usp .ico svg{width:22px; height:22px}
+.usp h3{color:#fff; font-size:17px; margin-bottom:4px}
+.usp p{margin:0; font-size:15px; color:var(--muted-d)}
+
+/* ============ 7. ПРЕДИ / СЛЕД ============ */
+.ba{position:relative; border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow); background:#000; aspect-ratio:16/10; max-width:100%}
+@media(min-width:760px){.ba{aspect-ratio:16/8}}
+.ba-layer{position:absolute; inset:0}
+.ba-layer svg{width:100%; height:100%; display:block}
+.ba-after{clip-path:inset(0 0 0 var(--pos,50%))}
+.ba-tag{
+  position:absolute; bottom:14px; padding:7px 14px; border-radius:8px; font-size:13px; font-weight:800;
+  letter-spacing:.08em; text-transform:uppercase; background:rgba(14,20,27,.82); color:#fff; z-index:3;
+}
+.ba-tag.l{left:14px}
+.ba-tag.r{right:14px; background:var(--accent); color:var(--ink)}
+.ba-line{position:absolute; top:0; bottom:0; left:var(--pos,50%); width:3px; background:var(--accent); z-index:4; pointer-events:none; transform:translateX(-50%)}
+.ba-knob{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px;
+  border-radius:50%; background:var(--accent); display:grid; place-items:center; color:var(--ink);
+  box-shadow:0 4px 16px rgba(0,0,0,.4); font-weight:900;
+}
+.ba-range{
+  position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:ew-resize; z-index:5;
+}
+.ba-hint{margin-top:12px; font-size:14.5px; color:var(--muted); text-align:center}
+
+/* ============ 8. ОТЗИВИ ============ */
+.reviews{display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.review{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:24px 22px}
+.stars{display:flex; gap:3px; margin-bottom:12px; color:var(--accent-d)}
+.stars svg{width:19px; height:19px}
+.review blockquote{margin:0 0 16px; font-size:16.5px}
+.review footer{display:flex; align-items:center; gap:11px; font-size:14.5px}
+.av{width:40px; height:40px; border-radius:50%; background:var(--ink); color:var(--accent); display:grid; place-items:center; font-weight:900; flex:none}
+.review footer b{display:block}
+.review footer span{color:var(--muted)}
+.g-note{
+  display:flex; align-items:center; justify-content:center; gap:10px; margin-top:22px;
+  font-size:15px; color:var(--muted); font-weight:600; flex-wrap:wrap; text-align:center;
+}
+.g-note b{color:var(--text)}
+
+/* ============ 9. ЗОНА НА ОБСЛУЖВАНЕ ============ */
+.area-grid{display:grid; gap:18px}
+@media(min-width:860px){.area-grid{grid-template-columns:1.25fr .75fr; gap:26px}}
+.zones{display:flex; flex-wrap:wrap; gap:9px; list-style:none; padding:0; margin:0 0 18px}
+.zones li{
+  padding:8px 15px; background:var(--white); border:1px solid var(--line);
+  border-radius:100px; font-size:15px; font-weight:600;
+}
+/* „Варна“ / „Област Варна“ са групови заглавия, не чипове — заемат цял ред */
+.zones li.main{
+  flex:0 0 100%; background:none; border:0; padding:6px 0 0; color:var(--muted);
+  font-size:13px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+}
+.zones li.main:first-child{padding-top:0}
+.hours{background:var(--white); border:1px solid var(--line); border-radius:var(--r); padding:22px; box-shadow:var(--shadow)}
+.hours h3{margin-bottom:14px}
+.hours dl{display:grid; grid-template-columns:1fr auto; gap:9px 12px; margin:0 0 16px; font-size:15.5px}
+.hours dt{color:var(--muted)}
+.hours dd{margin:0; font-weight:700; text-align:right}
+.hours .emerg{
+  display:flex; gap:11px; align-items:flex-start; padding:14px; border-radius:var(--r-s);
+  background:#fff7e0; border:1px solid #ffe3a0; font-size:15px;
+}
+.hours .emerg svg{width:22px; height:22px; color:var(--accent-d); flex:none; margin-top:2px}
+
+/* ============ 10. ЧЗВ ============ */
+.faq{max-width:820px}
+.faq details{background:var(--white); border:1px solid var(--line); border-radius:var(--r-s); margin-bottom:10px; overflow:hidden}
+.faq summary{
+  padding:18px 52px 18px 20px; cursor:pointer; font-weight:700; font-size:17px; position:relative; list-style:none;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:""; position:absolute; right:20px; top:50%; width:11px; height:11px; margin-top:-7px;
+  border-right:2.5px solid var(--accent-d); border-bottom:2.5px solid var(--accent-d);
+  transform:rotate(45deg); transition:transform .2s ease;
+}
+.faq details[open] summary::after{transform:rotate(-135deg); margin-top:-3px}
+.faq details[open] summary{background:#fffdf4}
+.faq .a{padding:0 20px 20px; color:var(--muted); font-size:16px}
+
+/* ============ 11. КОНТАКТИ + ФОРМА ============ */
+.contact-grid{display:grid; gap:26px}
+@media(min-width:900px){.contact-grid{grid-template-columns:.92fr 1.08fr; gap:40px}}
+.contact-side .phone-big{font-size:clamp(28px,7vw,40px)}
+.contact-list{list-style:none; padding:0; margin:22px 0 0; display:grid; gap:14px}
+.contact-list li{display:flex; gap:13px; align-items:flex-start; font-size:16px}
+.contact-list svg{width:22px; height:22px; color:var(--accent); flex:none; margin-top:3px}
+.contact-list b{display:block}
+.contact-list span{color:var(--muted-d); font-size:15px}
+.contact-list a{color:#fff; text-decoration:none; border-bottom:1px solid var(--line-d)}
+form{background:var(--white); color:var(--text); border-radius:var(--r); padding:26px 22px; box-shadow:var(--shadow-lg)}
+form h3{font-size:21px; margin-bottom:4px}
+form>p{color:var(--muted); font-size:15px; margin-bottom:20px}
+.field{margin-bottom:15px}
+.field label{display:block; font-size:14.5px; font-weight:700; margin-bottom:6px}
+.field label i{font-style:normal; color:var(--accent-2)}
+.field input,.field textarea,.field select{
+  width:100%; padding:13px 15px; border:1.5px solid var(--line); border-radius:var(--r-s);
+  font:inherit; font-size:16.5px; background:#fbfcfd; color:var(--text); transition:border-color .15s ease, box-shadow .15s ease;
+}
+.field textarea{min-height:104px; resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{
+  outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,194,26,.2); background:#fff;
+}
+.field .err{display:none; margin-top:6px; font-size:13.5px; color:#d8382a; font-weight:600}
+.field.bad input,.field.bad textarea{border-color:#d8382a; background:#fff7f6}
+.field.bad .err{display:block}
+.file-drop{
+  display:flex; align-items:center; gap:12px; padding:14px 15px; border:1.5px dashed var(--line);
+  border-radius:var(--r-s); cursor:pointer; background:#fbfcfd; font-size:15px; color:var(--muted);
+}
+.file-drop:hover{border-color:var(--accent); background:#fffdf4}
+.file-drop svg{width:22px; height:22px; color:var(--accent-d); flex:none}
+.file-drop input{position:absolute; width:1px; height:1px; opacity:0; pointer-events:none}
+.thumbs{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+.thumbs img{width:62px; height:62px; object-fit:cover; border-radius:8px; border:1px solid var(--line)}
+.form-note{font-size:13.5px; color:var(--muted); margin:12px 0 0; text-align:center}
+.sent{
+  display:none; padding:28px 22px; text-align:center;
+  background:var(--white); color:var(--text); border-radius:var(--r); box-shadow:var(--shadow-lg);
+}
+.sent h3{font-size:21px; margin-bottom:6px}
+.sent.on{display:block}
+.sent .ok-ico{width:58px; height:58px; margin:0 auto 14px; border-radius:50%; background:#e8faf0; color:var(--ok); display:grid; place-items:center}
+.sent .ok-ico svg{width:30px; height:30px}
+.sent .msg-box{
+  text-align:left; background:var(--paper); border:1px solid var(--line); border-radius:var(--r-s);
+  padding:14px; font-size:14.5px; white-space:pre-wrap; margin:16px 0; color:var(--muted);
+  max-height:180px; overflow:auto;
+}
+.sent .row{display:grid; gap:10px; grid-template-columns:1fr 1fr}
+@media(max-width:520px){.sent .row{grid-template-columns:1fr}}
+
+/* ============ 12. FOOTER + ЛЕНТА ============ */
+.ftr{background:#080d13; color:var(--muted-d); padding-block:34px; font-size:14.5px}
+.ftr .wrap{display:flex; flex-wrap:wrap; gap:18px; align-items:center; justify-content:space-between}
+.ftr .logo-txt b{color:#fff}
+.ftr a{color:var(--muted-d)}
+.ftr-links{display:flex; flex-wrap:wrap; gap:16px}
+.callbar{
+  position:fixed; left:0; right:0; bottom:0; z-index:60; display:grid; grid-template-columns:1.35fr 1fr;
+  gap:8px; padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(14,20,27,.97); border-top:1px solid var(--line-d); backdrop-filter:blur(8px);
+}
+.callbar .btn{padding:12px 14px; min-height:48px; font-size:16px}
+@media(min-width:900px){ body{padding-bottom:0} .callbar{display:none} }
+@media(prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important; scroll-behavior:auto!important}}
+.sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+.reveal{opacity:0; transform:translateY(18px); transition:opacity .5s ease, transform .5s ease}
+.reveal.in{opacity:1; transform:none}
+</style>
+</head>
+<body>
+
+<!-- ============ SVG СПРАЙТ С ИКОНИ ============ -->
+<svg style="display:none" aria-hidden="true"><defs>
+<symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+<symbol id="i-viber" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1C8.3 1 5.6 1.5 4 3c-1.2 1.2-1.8 3-1.8 5.6 0 2.6.5 4.7 1.6 6.1.6.8 1.4 1.5 2.3 2v3.2c0 .6.7 1 1.2.6l2.4-2.3c.8.1 1.5.1 2.3.1 3.7 0 6.4-.5 8-2 1.2-1.2 1.8-3 1.8-5.7 0-2.6-.6-4.4-1.8-5.6C18 1.5 15.7 1 12 1zm0 2c3.3 0 5.4.5 6.6 1.5.8.8 1.2 2.1 1.2 4.2s-.4 3.6-1.2 4.4c-1.2 1-3.3 1.5-6.6 1.5-.8 0-1.6 0-2.4-.2a1 1 0 0 0-.8.3l-1.4 1.4v-1.9a1 1 0 0 0-.6-.9c-.9-.4-1.6-1-2.1-1.6-.7-.9-1.1-2.5-1.1-4.7S3.9 5.3 4.7 4.5C5.9 3.5 8.7 3 12 3zm-2.7 2.9a.9.9 0 0 0-.6.2l-1 .8c-.5.4-.6 1-.4 1.6.4 1.2 1.2 2.6 2.4 3.8s2.6 2 3.8 2.4c.6.2 1.2 0 1.6-.4l.8-1a.9.9 0 0 0-.1-1.3l-1.5-1.1a.9.9 0 0 0-1.1 0l-.5.4c-.6-.3-1.2-.7-1.7-1.2s-.9-1.1-1.2-1.7l.4-.5a.9.9 0 0 0 0-1.1L9.9 6.3a.9.9 0 0 0-.6-.4zM12 5.5a.8.8 0 0 0 0 1.5c1.6 0 2.8.4 3.5 1.1.7.7 1.1 1.9 1.1 3.5a.8.8 0 0 0 1.5 0c0-1.9-.5-3.5-1.5-4.5s-2.7-1.6-4.6-1.6zm0 2.6a.8.8 0 0 0 0 1.5c.8 0 1.3.2 1.6.5.3.3.5.8.5 1.6a.8.8 0 0 0 1.5 0c0-1.1-.3-2-.9-2.7-.7-.6-1.6-.9-2.7-.9z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5.2 5.2L20 6.9"/></symbol>
+<symbol id="i-check-c" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="m7.8 12.3 2.8 2.8 5.6-5.6"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.6 2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5L2.6 9.4l6.5-.9z"/></symbol>
+<symbol id="i-tiles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5 12 3l10 6.5"/><path d="M4 13h16M4 17h16M4 21h16"/><path d="M8 13v8M12 13v8M16 13v8"/></symbol>
+<symbol id="i-frame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 13 12 4l10 9"/><path d="M12 4v9M6.8 8.3 12 13l5.2-4.7"/><path d="M4 21h16"/></symbol>
+<symbol id="i-gutter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h12a3 3 0 0 1 3 3v3"/><path d="M3 6v3a3 3 0 0 0 3 3h9"/><path d="M18 14v5a2 2 0 0 1-2 2h-1"/><path d="M7 16v3M11 16v2"/></symbol>
+<symbol id="i-panel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 4v16"/></symbol>
+<symbol id="i-water" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s6 6.4 6 10.3a6 6 0 1 1-12 0c0-3.9 6-10.3 6-10.3z"/><path d="M9 14a3 3 0 0 0 3 3"/></symbol>
+<symbol id="i-leak" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18v5H3z"/><path d="M7 9v2.5M12 9v4M17 9v2.5"/><circle cx="7" cy="15" r="1.6"/><circle cx="12" cy="17" r="1.6"/><circle cx="17" cy="15" r="1.6"/></symbol>
+<symbol id="i-brick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="1.5"/><path d="M2.5 9.7h19M2.5 14.3h19M9 5v4.7M15 9.7v4.6M9 14.3V19"/></symbol>
+<symbol id="i-paint" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13v5H4z"/><path d="M17 6.5h3v4h-6.5v3"/><rect x="11" y="13.5" width="5" height="7.5" rx="1.5"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12z"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 4 6v6c0 5 3.4 8.4 8 9.5 4.6-1.1 8-4.5 8-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/><circle cx="17" cy="15" r="1.3"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 6.5V12l3.6 2.2"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10.3" r="2.9"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5h3.5L8 6h8l1.5 2.5H21v11H3z"/><circle cx="12" cy="14" r="3.4"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9.5v4.2M12 17.2h.01"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>
+<symbol id="i-medal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="14.5" r="6"/><path d="m8.5 9.2-3-6.7M15.5 9.2l3-6.7M12 12v5M9.8 14.5h4.4"/></symbol>
+<symbol id="i-arrows" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5M15 7l5 5-5 5"/></symbol>
+</defs></svg>
+
+<!-- ============ ХЕДЪР ============ -->
+<header class="hdr">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Иван Георгиев — Ремонт на покриви, начало">
+      <!-- ЛОГО: щит + покрив от керемиди (шеврони) -->
+      <svg class="logo-mark" viewBox="0 0 64 64" role="img" aria-label="Лого">
+        <rect width="64" height="64" rx="15" fill="#0e141b"/>
+        <path d="M32 12 56 32h-9L32 19.5 17 32H8z" fill="#ffc21a"/>
+        <path d="M32 27.5 47.5 40h-6.8L32 32.8 23.3 40h-6.8z" fill="#ffc21a" opacity=".72"/>
+        <path d="M32 39.5 42 48H22z" fill="#ffc21a" opacity=".45"/>
+      </svg>
+      <span class="logo-txt"><b>Иван Георгиев</b><span>Ремонт на покриви</span></span>
+    </a>
+    <nav class="nav" aria-label="Основна навигация">
+      <a href="#uslugi">Услуги</a>
+      <a href="#zashto">Защо мен</a>
+      <a href="#otzivi">Отзиви</a>
+      <a href="#rayon">Район</a>
+      <a href="#vaprosi">Въпроси</a>
+      <a href="#kontakti">Контакти</a>
+    </nav>
+    <a class="btn btn-call hdr-cta" href="tel:+359888816910" data-track="header">
+      <svg aria-hidden="true"><use href="#i-phone"/></svg><span>088 881 6910</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+<!-- ============ 1. HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="status" id="status"><span class="dot"></span><span id="status-txt">Работи сега</span> <small id="status-sub">· до 19:00</small></p>
+        <h1>Ремонт на покриви <em>Варна и областта</em></h1>
+        <p class="lead"><b>15 години на покрива.</b> Керемиди, нова конструкция, улуци, обшивки, хидроизолация и течове. Идвам на оглед безплатно и казвам цената още на място — без изненади.</p>
+        <p class="badge-disc"><b>20%</b> отстъпка за пенсионери</p>
+        <div class="hero-btns">
+          <a class="btn btn-call" href="tel:+359888816910" data-track="hero"><svg aria-hidden="true"><use href="#i-phone"/></svg>Обади се сега</a>
+          <a class="btn btn-viber" href="viber://chat?number=%2B359888816910"><svg aria-hidden="true"><use href="#i-viber"/></svg>Пиши във Viber</a>
+        </div>
+        <ul class="perks">
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Безплатен оглед</li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg>5 г. гаранция</li>
+          <li><svg aria-hidden="true"><use href="#i-check"/></svg>Собствено скеле</li>
+        </ul>
+      </div>
+
+      <aside class="hero-card">
+        <p class="urgent"><svg style="width:16px;height:16px" aria-hidden="true"><use href="#i-bolt"/></svg> Тече покрив? До 24 часа</p>
+        <h2>Спешно повикване</h2>
+        <p>При теч идвам същия или следващия ден и правя временна защита, докато се направи ремонтът.</p>
+        <a class="phone-big" href="tel:+359888816910" data-track="hero-card"><svg aria-hidden="true"><use href="#i-phone"/></svg>088 881 6910</a>
+        <a class="btn btn-call" href="tel:+359888816910">Обади се — безплатен оглед</a>
+        <div class="sign">
+          <span class="sign-av" aria-hidden="true">ИГ</span>
+          <span><b>Иван Георгиев</b><span>майстор покривчия · Варна</span></span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. УСЛУГИ ============ -->
+<section id="uslugi">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Какво правя</p>
+      <h2>Услуги за покрива</h2>
+      <p>Всичко по покрива — от една счупена керемида до цяла нова конструкция. Работя с качествени материали и оставям обекта чист.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-tiles"/></svg></div>
+        <h3>Пренареждане на керемиди</h3><p>Сваляне, подмяна на счупените и правилно нареждане отново — спира течовете без цял нов покрив.</p></article>
+      <article class="card reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-frame"/></svg></div>
+        <h3>Повдигане на нова конструкция</h3><p>Изграждане на нова дървена конструкция, смяна на изгнили греди, летви и дъсчена обшивка.</p></article>
+      <article class="card reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-gutter"/></svg></div>
+        <h3>Поставяне на улуци</h3><p>Улуци и водосточни тръби — монтаж, подмяна и почистване, за да не тече вода по стената.</p></article>
+      <article class="card reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-panel"/></svg></div>
+        <h3>Всички видове обшивки</h3><p>Обшиване на стрехи, комини и бордове — PVC, ламарина, дърво. Чист и завършен вид.</p></article>
+      <article class="card reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-water"/></svg></div>
+        <h3>Лепене на хидроизолация</h3><p>Битумна хидроизолация на плоски покриви, тераси и гаражи — с грундиране и правилно застъпване.</p></article>
+      <article class="card reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-leak"/></svg></div>
+        <h3>Отстраняване на течове</h3><p>Намирам откъде влиза водата и го решавам — комин, улама, керемида или хидроизолация.</p></article>
+      <article class="card reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-brick"/></svg></div>
+        <h3>Зидария и кофражи</h3><p>Комини, бордове, стени и кофраж за плочи — довършвам и това, което върви с покрива.</p></article>
+      <article class="card reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-paint"/></svg></div>
+        <h3>Бояджийски услуги</h3><p>Фасади, стрехи и вътрешно боядисване след ремонта — без следи от работата.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. ЗАЩО МЕН ============ -->
+<section id="zashto" class="dark">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Защо мен</p>
+      <h2>Работа, която се държи с години</h2>
+      <p>Без посредници и без фирмени надценки — говорите директно с човека, който ще е на покрива.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b data-count="15" data-suf="">0</b><span>години опит</span></div>
+      <div class="stat"><b data-count="1200" data-suf="+">0</b><span>ремонта</span></div>
+      <div class="stat"><b data-count="5" data-suf=" г.">0</b><span>гаранция</span></div>
+      <div class="stat"><b data-count="24" data-suf="ч">0</b><span>реакция при теч</span></div>
+    </div>
+    <div class="usps">
+      <div class="usp reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-bolt"/></svg></div>
+        <div><h3>Бърза реакция</h3><p>Отговарям на телефона лично. При авария идвам до 24 часа.</p></div></div>
+      <div class="usp reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-wallet"/></svg></div>
+        <div><h3>Прозрачни цени</h3><p>Оглед и оферта безплатно. Цената се определя на място и не се променя после.</p></div></div>
+      <div class="usp reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-shield"/></svg></div>
+        <div><h3>Гаранция на работата</h3><p>5 години гаранция. Ако протече на ремонтираното място — връщам се безплатно.</p></div></div>
+      <div class="usp reveal"><div class="ico"><svg aria-hidden="true"><use href="#i-medal"/></svg></div>
+        <div><h3>Собствена бригада</h3><p>Скеле, инструменти и хора — всичко е мое. Няма чакане и няма чужди подизпълнители.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. ПРЕДИ / СЛЕД ============
+     ЗАБЕЛЕЖКА: тук са векторни илюстрации, за да е сайтът един файл и да зарежда мигновено.
+     За реални снимки: заменете <svg> в .ba-before / .ba-after с <img src="preди.jpg" alt="..."> -->
+<section id="rezultati">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Преди / След</p>
+      <h2>Един и същ покрив</h2>
+      <p>Стар покрив с изместени керемиди и теч около комина — след пренареждане, нови летви, обшивка на комина и нови улуци.</p>
+    </div>
+    <div class="ba reveal" id="ba">
+      <div class="ba-layer ba-before">
+        <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Покрив преди ремонта — изместени и счупени керемиди, мухъл и ръждив улук">
+          <defs>
+            <linearGradient id="skyB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8d98a4"/><stop offset="1" stop-color="#b9bfc4"/></linearGradient>
+            <pattern id="tileB" width="46" height="26" patternUnits="userSpaceOnUse">
+              <rect width="46" height="26" fill="#6e6a63"/>
+              <path d="M0 25h46M23 0v26" stroke="#57544e" stroke-width="2"/>
+              <path d="M4 4h16v18H4z" fill="#7b766d" opacity=".5"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="400" fill="url(#skyB)"/>
+          <path d="M0 300h800v100H0z" fill="#8e8b84"/>
+          <path d="M60 300 400 96l340 204z" fill="url(#tileB)"/>
+          <path d="M60 300 400 96l340 204z" fill="#000" opacity=".12"/>
+          <!-- липсващи / изместени керемиди -->
+          <path d="M330 190h44v24h-44zM392 214h44v24h-44zM286 238h44v24h-44zM470 166h44v22h-44z" fill="#2f2c28"/>
+          <path d="M238 256h50v26h-50z" fill="#3a3732"/>
+          <!-- мухъл -->
+          <ellipse cx="200" cy="272" rx="66" ry="22" fill="#5d6b45" opacity=".55"/>
+          <ellipse cx="560" cy="250" rx="54" ry="18" fill="#5d6b45" opacity=".45"/>
+          <!-- комин без обшивка -->
+          <path d="M520 120h58v76h-58z" fill="#7a6a5c"/><path d="M514 112h70v12h-70z" fill="#665849"/>
+          <path d="M520 150h58v6h-58z" fill="#4c4239" opacity=".7"/>
+          <!-- ръждив увиснал улук -->
+          <path d="M52 300h700v14H52z" fill="#7d5b3a"/><path d="M52 306h700v4H52z" fill="#5c3f26"/>
+          <path d="M330 314h120v10H330z" fill="#8a6a49" transform="rotate(3 390 319)"/>
+          <!-- капки -->
+          <circle cx="392" cy="336" r="5" fill="#4a6e86"/><circle cx="392" cy="356" r="4" fill="#4a6e86" opacity=".7"/>
+        </svg>
+      </div>
+      <div class="ba-layer ba-after" id="ba-after">
+        <svg viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Покривът след ремонта — нови подредени керемиди, обшит комин и нови улуци">
+          <defs>
+            <linearGradient id="skyA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f8fd0"/><stop offset="1" stop-color="#bfe0f3"/></linearGradient>
+            <pattern id="tileA" width="46" height="26" patternUnits="userSpaceOnUse">
+              <rect width="46" height="26" fill="#c2542b"/>
+              <path d="M0 25h46" stroke="#9c3f1e" stroke-width="2.5"/>
+              <path d="M23 0v26" stroke="#a8471f" stroke-width="2"/>
+              <rect x="3" y="3" width="17" height="19" rx="2" fill="#d76a42" opacity=".55"/>
+              <rect x="26" y="3" width="17" height="19" rx="2" fill="#d76a42" opacity=".55"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="400" fill="url(#skyA)"/>
+          <circle cx="700" cy="70" r="34" fill="#ffe07a" opacity=".85"/>
+          <path d="M0 300h800v100H0z" fill="#e9e4dc"/>
+          <path d="M60 300 400 96l340 204z" fill="url(#tileA)"/>
+          <path d="M60 300 400 96l340 204z" fill="#fff" opacity=".06"/>
+          <!-- било -->
+          <path d="M392 96h16l332 200h-24z" fill="#a8451f"/>
+          <!-- обшит комин -->
+          <path d="M520 120h58v76h-58z" fill="#8d7c6c"/><path d="M514 112h70v12h-70z" fill="#6f6154"/>
+          <path d="M508 186h82v12h-82z" fill="#c9ced4"/><path d="M508 186h82v4h-82z" fill="#eef2f5"/>
+          <!-- нов улук -->
+          <path d="M52 300h700v14H52z" fill="#d8dde2"/><path d="M52 300h700v5H52z" fill="#f2f5f7"/>
+          <path d="M700 314h12v70h-12z" fill="#d8dde2"/>
+        </svg>
+      </div>
+      <span class="ba-tag l">Преди</span>
+      <span class="ba-tag r">След</span>
+      <span class="ba-line" id="ba-line" aria-hidden="true"><span class="ba-knob"><svg style="width:22px;height:22px" aria-hidden="true"><use href="#i-arrows"/></svg></span></span>
+      <input class="ba-range" id="ba-range" type="range" min="0" max="100" value="50" aria-label="Плъзгач преди и след ремонта">
+    </div>
+    <p class="ba-hint">Плъзнете наляво/надясно, за да сравните</p>
+  </div>
+</section>
+
+<!-- ============ 5. ОТЗИВИ ============ -->
+<section id="otzivi" style="background:#eef1f4">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Отзиви</p>
+      <h2>Какво казват клиентите</h2>
+    </div>
+    <div class="reviews">
+      <article class="review reveal">
+        <div class="stars" role="img" aria-label="5 от 5 звезди"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>„Течеше ми при комина от две години и двама майстори преди това не го хванаха. Иван дойде, качи се, показа ми проблема със снимки и го оправи за един ден. Оттогава — сухо.“</blockquote>
+        <footer><span class="av" aria-hidden="true">ГП</span><span><b>Георги П.</b><span>кв. Виница, Варна</span></span></footer>
+      </article>
+      <article class="review reveal">
+        <div class="stars" role="img" aria-label="5 от 5 звезди"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>„Смени ни цялата конструкция и керемидите на къщата. Каза цена в началото и толкова платихме — нито лев отгоре. Почистиха всичко след себе си, дворът беше като преди.“</blockquote>
+        <footer><span class="av" aria-hidden="true">МД</span><span><b>Мария Д.</b><span>гр. Аксаково</span></span></footer>
+      </article>
+      <article class="review reveal">
+        <div class="stars" role="img" aria-label="5 от 5 звезди"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div>
+        <blockquote>„Аз съм пенсионерка и много се притеснявах от цената. Направиха ми улуците и обшивката, дадоха ми и отстъпката. Много възпитани момчета, идват точно на часа.“</blockquote>
+        <footer><span class="av" aria-hidden="true">ЙС</span><span><b>Йорданка С.</b><span>кв. Аспарухово, Варна</span></span></footer>
+      </article>
+    </div>
+    <p class="g-note reveal"><svg style="width:20px;height:20px;color:#e9a900" aria-hidden="true"><use href="#i-star"/></svg> <b>4.9 от 5</b> · над 80 оценки от клиенти · препоръки от съседи и роднини</p>
+  </div>
+</section>
+
+<!-- ============ 6. ЗОНА НА ОБСЛУЖВАНЕ ============ -->
+<section id="rayon">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Къде работя</p>
+      <h2>Зона на обслужване</h2>
+      <p>Варна и населените места до около 40 км от града. За по-далечни обекти — обадете се, ще преценим.</p>
+    </div>
+    <div class="area-grid">
+      <div class="reveal">
+        <ul class="zones">
+          <li class="main">Варна — целият град</li>
+          <li>Аспарухово</li><li>Галата</li><li>Виница</li><li>Чайка</li><li>Бриз</li>
+          <li>Левски</li><li>Младост</li><li>Владислав Варненчик</li><li>Трошево</li><li>Възраждане</li>
+          <li>Изгрев</li><li>Кайсиева градина</li><li>Гръцка махала</li><li>Св. Св. Константин и Елена</li>
+          <li class="main">Област Варна</li>
+          <li>Аксаково</li><li>Белослав</li><li>Девня</li><li>Игнатиево</li><li>Суворово</li>
+          <li>Провадия</li><li>Долни чифлик</li><li>Бяла</li><li>Златни пясъци</li>
+        </ul>
+        <p style="color:var(--muted);font-size:15.5px;margin:0">Огледът във Варна и до 20 км е <b>безплатен</b>. За по-далечни обекти се договаряме предварително.</p>
+      </div>
+      <div class="hours reveal">
+        <h3>Работно време</h3>
+        <dl>
+          <dt>Понеделник – Петък</dt><dd>08:00 – 19:00</dd>
+          <dt>Събота</dt><dd>08:00 – 17:00</dd>
+          <dt>Неделя</dt><dd>по уговорка</dd>
+        </dl>
+        <div class="emerg">
+          <svg aria-hidden="true"><use href="#i-alert"/></svg>
+          <span><b>Аварийни повиквания 24/7.</b> При силен теч или отнесени керемиди — звъннете по всяко време.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. ЧЗВ ============ -->
+<section id="vaprosi" style="background:#eef1f4">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Въпроси</p>
+      <h2>Чести въпроси</h2>
+    </div>
+    <div class="faq">
+      <details class="reveal" open><summary>Колко бързо идвате при авария?</summary>
+        <div class="a">При теч или отнесени от вятъра керемиди идвам в рамките на 24 часа, а в повечето случаи същия ден. Ако времето не позволява ремонт веднага, правя временна защита с покривало, за да спре водата.</div></details>
+      <details class="reveal"><summary>Колко струва ремонтът?</summary>
+        <div class="a">Зависи от площта, наклона и състоянието на конструкцията. Затова идвам на оглед безплатно, качвам се на покрива и казвам точна цена на място. Тази цена не се променя след това.</div></details>
+      <details class="reveal"><summary>Огледът наистина ли е безплатен?</summary>
+        <div class="a">Да. Оглед и оферта във Варна и до 20 км са напълно безплатни и без ангажимент. Не дължите нищо, ако решите да не работим заедно.</div></details>
+      <details class="reveal"><summary>Как се ползва отстъпката за пенсионери?</summary>
+        <div class="a">Просто ми кажете при огледа — 20% отстъпка от труда за пенсионери. Не е нужно да попълвате нищо, само пенсионна книжка или карта при плащането.</div></details>
+      <details class="reveal"><summary>Давате ли гаранция?</summary>
+        <div class="a">Да — 5 години гаранция на извършения ремонт. Ако се появи теч на мястото, което съм ремонтирал, връщам се и го оправям безплатно.</div></details>
+      <details class="reveal"><summary>Вие ли осигурявате материалите и скелето?</summary>
+        <div class="a">Да. Имам собствено скеле и инструменти, а материалите мога да ги доставя аз на цени от склад или да ги купите вие — както решите.</div></details>
+      <details class="reveal"><summary>Работите ли през зимата?</summary>
+        <div class="a">Да, при сухо време. При сняг и заледяване не се работи по съображения за безопасност, но аварийните запушвания на течове ги правим целогодишно.</div></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. КОНТАКТИ ============ -->
+<section id="kontakti" class="dark">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-side reveal">
+        <p class="kicker">Контакти</p>
+        <h2>Обадете се — отговарям лично</h2>
+        <p style="color:var(--muted-d)">Най-бързо е по телефона. Ако съм на покрив и не вдигна, пишете ми във Viber или оставете запитване — връщам обаждане същия ден.</p>
+        <a class="phone-big" href="tel:+359888816910" data-track="contact"><svg aria-hidden="true"><use href="#i-phone"/></svg>088 881 6910</a>
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <a class="btn btn-call" style="flex:1 1 180px" href="tel:+359888816910"><svg aria-hidden="true"><use href="#i-phone"/></svg>Обади се</a>
+          <a class="btn btn-viber" style="flex:1 1 180px" href="viber://chat?number=%2B359888816910"><svg aria-hidden="true"><use href="#i-viber"/></svg>Viber</a>
+          <a class="btn btn-ghost" style="flex:1 1 180px" href="https://wa.me/359888816910" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-viber"/></svg>WhatsApp</a>
+        </div>
+        <ul class="contact-list">
+          <li><svg aria-hidden="true"><use href="#i-pin"/></svg><span><b>Варна и областта</b><span>до 40 км от града</span></span></li>
+          <li><svg aria-hidden="true"><use href="#i-clock"/></svg><span><b>Пн–Пт 08:00–19:00 · Сб 08:00–17:00</b><span>аварии — 24/7</span></span></li>
+          <li><svg aria-hidden="true"><use href="#i-mail"/></svg><span><b><a href="mailto:ivan.pokrivi@abv.bg">ivan.pokrivi@abv.bg</a></b><span>за оферти и документи</span></span></li>
+          <li><svg aria-hidden="true"><use href="#i-medal"/></svg><span><b>Иван Георгиев</b><span>майстор покривчия, 15 г. опит</span></span></li>
+        </ul>
+      </div>
+
+      <div class="reveal">
+        <form id="form" novalidate>
+          <h3>Поискай оферта</h3>
+          <p>Опишете накратко проблема. Ако имате снимка на теча или покрива — прикачете я, спестява време.</p>
+          <div class="field" id="f-name">
+            <label for="name">Име <i>*</i></label>
+            <input id="name" name="name" type="text" autocomplete="name" placeholder="Как да се обръщам към Вас" required>
+            <span class="err">Моля, въведете име.</span>
+          </div>
+          <div class="field" id="f-phone">
+            <label for="phone">Телефон <i>*</i></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="08XX XXX XXX" required>
+            <span class="err">Моля, въведете валиден телефон (мин. 9 цифри).</span>
+          </div>
+          <div class="field">
+            <label for="type">Какво Ви трябва</label>
+            <select id="type" name="type">
+              <option>Отстраняване на теч</option>
+              <option>Пренареждане на керемиди</option>
+              <option>Нова покривна конструкция</option>
+              <option>Улуци и водосточни тръби</option>
+              <option>Обшивки (стрехи, комин)</option>
+              <option>Хидроизолация на плосък покрив</option>
+              <option>Зидария / кофраж / боя</option>
+              <option>Друго / не съм сигурен</option>
+            </select>
+          </div>
+          <div class="field" id="f-msg">
+            <label for="msg">Опишете проблема <i>*</i></label>
+            <textarea id="msg" name="msg" placeholder="Напр.: Тече при комина, като вали силно. Къща на два етажа в кв. Аспарухово, покривът е с керемиди." required></textarea>
+            <span class="err">Моля, опишете накратко проблема.</span>
+          </div>
+          <div class="field">
+            <label for="photo">Снимка на проблема (по избор)</label>
+            <label class="file-drop" for="photo">
+              <svg aria-hidden="true"><use href="#i-cam"/></svg>
+              <span id="file-label">Изберете снимка от телефона</span>
+              <input id="photo" name="photo" type="file" accept="image/*" multiple>
+            </label>
+            <div class="thumbs" id="thumbs"></div>
+          </div>
+          <button class="btn btn-call btn-wide" type="submit">Изпрати запитване</button>
+          <p class="form-note">Обикновено отговарям до 2 часа в работно време.</p>
+        </form>
+
+        <div class="sent" id="sent" role="status" aria-live="polite">
+          <div class="ok-ico"><svg aria-hidden="true"><use href="#i-check-c"/></svg></div>
+          <h3>Готово — остава да го изпратите</h3>
+          <p style="color:var(--muted);font-size:15.5px">Сайтът е визитка без сървър, затова запитването се изпраща директно до Иван през Viber или SMS. Натиснете един от бутоните — текстът вече е готов.</p>
+          <div class="msg-box" id="msg-box"></div>
+          <div class="row">
+            <a class="btn btn-viber" id="send-viber" href="#"><svg aria-hidden="true"><use href="#i-viber"/></svg>Изпрати по Viber</a>
+            <a class="btn btn-dark" id="send-sms" href="#">Изпрати по SMS</a>
+          </div>
+          <div class="row" style="margin-top:10px">
+            <a class="btn btn-call" href="tel:+359888816910"><svg aria-hidden="true"><use href="#i-phone"/></svg>Обади се</a>
+            <button class="btn btn-dark" id="copy-btn" type="button">Копирай текста</button>
+          </div>
+          <p class="form-note" id="photo-note" hidden>Снимката прикачете директно в чата след като се отвори Viber.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="ftr">
+  <div class="wrap">
+    <a class="logo" href="#top">
+      <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="15" fill="#141c26"/>
+        <path d="M32 12 56 32h-9L32 19.5 17 32H8z" fill="#ffc21a"/>
+        <path d="M32 27.5 47.5 40h-6.8L32 32.8 23.3 40h-6.8z" fill="#ffc21a" opacity=".72"/>
+        <path d="M32 39.5 42 48H22z" fill="#ffc21a" opacity=".45"/>
+      </svg>
+      <span class="logo-txt"><b>Иван Георгиев</b><span>Ремонт на покриви</span></span>
+    </a>
+    <nav class="ftr-links" aria-label="Долна навигация">
+      <a href="#uslugi">Услуги</a><a href="#rayon">Район</a><a href="#vaprosi">Въпроси</a>
+      <a href="tel:+359888816910">088 881 6910</a>
+    </nav>
+    <p style="margin:0">© <span id="year">2026</span> Иван Георгиев · Варна</p>
+  </div>
+</footer>
+
+<!-- ============ ФИКСИРАНА ЛЕНТА (МОБИЛНО) ============ -->
+<div class="callbar">
+  <a class="btn btn-call" href="tel:+359888816910" data-track="callbar"><svg aria-hidden="true"><use href="#i-phone"/></svg>088 881 6910</a>
+  <a class="btn btn-viber" href="viber://chat?number=%2B359888816910"><svg aria-hidden="true"><use href="#i-viber"/></svg>Viber</a>
+</div>
+
+<!-- ============ SEO: структурирани данни ============ -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"RoofingContractor",
+  "name":"Иван Георгиев — Ремонт на покриви",
+  "description":"Ремонт на покриви във Варна и областта: пренареждане на керемиди, нова покривна конструкция, улуци, обшивки, хидроизолация, отстраняване на течове, зидария и бояджийски услуги.",
+  "telephone":"+359888816910",
+  "email":"ivan.pokrivi@abv.bg",
+  "priceRange":"$$",
+  "areaServed":[{"@type":"City","name":"Варна"},{"@type":"AdministrativeArea","name":"Област Варна"}],
+  "address":{"@type":"PostalAddress","addressLocality":"Варна","addressCountry":"BG"},
+  "openingHoursSpecification":[
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"19:00"},
+    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"08:00","closes":"17:00"}
+  ],
+  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"80"},
+  "makesOffer":[
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Пренареждане на керемиди"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Повдигане на нова покривна конструкция"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Поставяне на улуци"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Лепене на хидроизолация"}},
+    {"@type":"Offer","itemOffered":{"@type":"Service","name":"Отстраняване на течове"}}
+  ]
+}
+</script>
+
+<script>
+/* ============ 1. Индикатор „Работи сега“ ============ */
+(function(){
+  var el=document.getElementById('status'), txt=document.getElementById('status-txt'), sub=document.getElementById('status-sub');
+  if(!el) return;
+  // работно време: Пн–Пт 8–19, Сб 8–17, Нд по уговорка
+  var now=new Date(), d=now.getDay(), h=now.getHours()+now.getMinutes()/60;
+  var open=false, closeH=0;
+  if(d>=1&&d<=5){ open=h>=8&&h<19; closeH=19; }
+  else if(d===6){ open=h>=8&&h<17; closeH=17; }
+  if(open){
+    el.classList.remove('off'); txt.textContent='Работи сега';
+    sub.textContent='· до '+closeH+':00';
+  }else{
+    el.classList.add('off'); txt.textContent='Извън работно време';
+    sub.textContent='· при авария звънете 24/7';
+  }
+})();
+
+/* ============ 2. Броячи ============ */
+(function(){
+  var nums=document.querySelectorAll('[data-count]');
+  if(!nums.length) return;
+  var run=function(n){
+    var target=+n.dataset.count, suf=n.dataset.suf||'', t0=null, dur=1100;
+    var step=function(ts){
+      if(!t0) t0=ts;
+      var p=Math.min((ts-t0)/dur,1), e=1-Math.pow(1-p,3);
+      n.textContent=Math.round(target*e)+suf;
+      if(p<1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if(!('IntersectionObserver' in window)){ nums.forEach(function(n){n.textContent=n.dataset.count+(n.dataset.suf||'')}); return; }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ run(e.target); io.unobserve(e.target); } });
+  },{threshold:.4});
+  nums.forEach(function(n){io.observe(n)});
+})();
+
+/* ============ 3. Появяване при скрол ============ */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.12, rootMargin:'0px 0px -40px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+
+/* ============ 4. Плъзгач „Преди / След“ ============ */
+(function(){
+  var r=document.getElementById('ba-range'), a=document.getElementById('ba-after'), l=document.getElementById('ba-line');
+  if(!r) return;
+  var set=function(){ var v=r.value+'%'; a.style.setProperty('--pos',v); l.style.left=v; };
+  r.addEventListener('input',set); set();
+})();
+
+/* ============ 5. Форма „Поискай оферта“ ============ */
+(function(){
+  var f=document.getElementById('form'); if(!f) return;
+  var PHONE='359888816910';
+  var thumbs=document.getElementById('thumbs'), fileLabel=document.getElementById('file-label'), hasPhoto=false;
+
+  document.getElementById('photo').addEventListener('change',function(e){
+    thumbs.innerHTML=''; var files=[].slice.call(e.target.files||[]).slice(0,4);
+    hasPhoto=files.length>0;
+    fileLabel.textContent=files.length?files.length+' избрани снимки':'Изберете снимка от телефона';
+    files.forEach(function(file){
+      var img=document.createElement('img'); img.alt=file.name;
+      img.src=URL.createObjectURL(file); img.onload=function(){URL.revokeObjectURL(img.src)};
+      thumbs.appendChild(img);
+    });
+  });
+
+  var bad=function(id,cond){
+    var w=document.getElementById(id); w.classList.toggle('bad',!cond); return cond;
+  };
+
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var name=f.name.value.trim(), phone=f.phone.value.trim(), msg=f.msg.value.trim(), type=f.type.value;
+    var okName=bad('f-name',name.length>=2);
+    var okPhone=bad('f-phone',(phone.replace(/\D/g,'').length>=9));
+    var okMsg=bad('f-msg',msg.length>=5);
+    if(!(okName&&okPhone&&okMsg)){ f.querySelector('.bad input, .bad textarea').focus(); return; }
+
+    var text='Запитване от сайта\n'+
+             'Име: '+name+'\n'+
+             'Телефон: '+phone+'\n'+
+             'Услуга: '+type+'\n'+
+             'Проблем: '+msg;
+
+    document.getElementById('msg-box').textContent=text;
+    document.getElementById('send-viber').href='viber://forward?text='+encodeURIComponent(text);
+    document.getElementById('send-sms').href='sms:+'+PHONE+'?&body='+encodeURIComponent(text);
+    document.getElementById('photo-note').hidden=!hasPhoto;
+    f.style.display='none';
+    var sent=document.getElementById('sent');
+    sent.classList.add('on');
+    sent.scrollIntoView({behavior:'smooth',block:'center'});
+
+    document.getElementById('copy-btn').addEventListener('click',function(){
+      var b=this;
+      var done=function(){ b.textContent='Копирано ✓'; setTimeout(function(){b.textContent='Копирай текста'},2000); };
+      if(navigator.clipboard){ navigator.clipboard.writeText(text).then(done,done); }
+      else{ var t=document.createElement('textarea'); t.value=text; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); done(); }
+    });
+  });
+})();
+
+/* ============ 6. Година във футъра ============ */
+document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
