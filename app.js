@@ -226,30 +226,34 @@ function viewData() {
 
 /* ---------- Примерни данни ---------- */
 function demoData() {
-  const first = ['Мария', 'Елена', 'Стефан', 'Николай', 'Анна', 'Петър', 'Ралица', 'Иван', 'Ирина', 'Георги', 'Десислава', 'Борис', 'Виолета', 'Тодор', 'Силвия', 'Драгомир', 'Надежда', 'Калоян', 'Росица', 'Владимир', 'Цветана', 'Любомир', 'Мирела', 'Красимир', 'Ани'];
-  const last = ['Иванова', 'Петрова', 'Георгиев', 'Димитров', 'Колева', 'Стоянов', 'Тодорова', 'Николов', 'Маринова', 'Василев', 'Христова', 'Атанасов', 'Костова', 'Попов', 'Андреева', 'Йорданов', 'Павлова', 'Митев', 'Ненова', 'Данов', 'Станева', 'Ангелов', 'Захариева', 'Борисов', 'Желязкова'];
+  const fF = ['Мария', 'Елена', 'Анна', 'Ралица', 'Ирина', 'Десислава', 'Виолета', 'Силвия', 'Надежда', 'Росица', 'Цветана', 'Мирела'];
+  const fL = ['Иванова', 'Петрова', 'Колева', 'Тодорова', 'Маринова', 'Христова', 'Костова', 'Андреева', 'Павлова', 'Ненова', 'Станева', 'Захариева'];
+  const mF = ['Стефан', 'Николай', 'Петър', 'Иван', 'Георги', 'Борис', 'Тодор', 'Драгомир', 'Калоян', 'Владимир', 'Любомир', 'Красимир'];
+  const mL = ['Георгиев', 'Димитров', 'Стоянов', 'Николов', 'Василев', 'Атанасов', 'Попов', 'Йорданов', 'Митев', 'Данов', 'Ангелов', 'Борисов'];
+  const nameOf = i => { const k = Math.floor(i / 2); return i % 2 ? mF[k % 12] + ' ' + mL[(k + Math.floor(k / 12)) % 12] : fF[k % 12] + ' ' + fL[(k + Math.floor(k / 12)) % 12]; };
   // [специалности, брой учители]
-  const groups = [[['БЕЛ'], 4], [['Математика'], 4], [['Английски език'], 3], [['История', 'География'], 4], [['Биология'], 2],
-    [['Информатика', 'Технологии'], 2], [['Физическо възпитание'], 2], [['Музика', 'Изобразително изкуство'], 2]];
-  const plan = { 'БЕЛ': 5, 'Математика': 4, 'Английски език': 3, 'История': 2, 'География': 2, 'Биология': 2, 'Информатика': 1, 'Технологии': 1, 'Музика': 1, 'Изобразително изкуство': 1, 'Физическо възпитание': 2 };
-  const classNames = []; for (let g = 1; g <= 7; g++) for (const p of (g === 6 ? ['А', 'Б', 'В'] : ['А', 'Б'])) classNames.push(g + p);
-  const CAP = 20;
+  const groups = [[['БЕЛ'], 7], [['Математика'], 6], [['Английски език'], 4], [['История', 'География'], 6], [['Биология'], 3],
+    [['Физика', 'Химия'], 3], [['Информатика', 'Технологии'], 3], [['Физическо възпитание'], 3], [['Музика', 'Изобразително изкуство'], 2]];
+  const lowerPlan = { 'БЕЛ': 5, 'Математика': 4, 'Английски език': 3, 'История': 2, 'География': 2, 'Биология': 2, 'Информатика': 1, 'Технологии': 1, 'Музика': 1, 'Изобразително изкуство': 1, 'Физическо възпитание': 2 };
+  const upperPlan = { 'БЕЛ': 5, 'Математика': 4, 'Английски език': 3, 'История': 2, 'География': 2, 'Биология': 2, 'Физика': 2, 'Химия': 2, 'Информатика': 1, 'Технологии': 1, 'Физическо възпитание': 2 };
+  const classNames = []; for (let g = 1; g <= 12; g++) for (const p of (g === 6 ? ['А', 'Б', 'В'] : ['А', 'Б'])) classNames.push(g + p);
+  const CAP = 20, HRS = state.settings.hours;
 
   for (let attempt = 1; attempt < 300; attempt++) {
     let seed = attempt * 7919; const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
     const s = blank(); let n = 0;
     for (const [subs, cnt] of groups) for (let i = 0; i < cnt; i++, n++)
-      s.teachers.push({ id: uid(), name: first[n] + ' ' + last[n], kind: 'teacher', subjects: subs, busy: {}, color: teacherColor(n) });
+      s.teachers.push({ id: uid(), name: nameOf(n), kind: 'teacher', subjects: subs, busy: {}, color: teacherColor(n) });
     for (const sub of [['БЕЛ', 'Математика'], ['Физическо възпитание']]) {
-      s.teachers.push({ id: uid(), name: first[n] + ' ' + last[n], kind: 'afterschool', subjects: sub, busy: {}, color: teacherColor(n) }); n++;
+      s.teachers.push({ id: uid(), name: nameOf(n), kind: 'afterschool', subjects: sub, busy: {}, color: teacherColor(n) }); n++;
     }
     const busy = new Set(), load = {}; let ok = true;
     s.classes = classNames.map(name => ({ id: uid(), name, lessons: {} }));
     const jobs = [];
-    for (const c of s.classes) for (const [sub, k] of Object.entries(plan)) for (let i = 0; i < k; i++) jobs.push({ c, sub });
+    for (const c of s.classes) for (const [sub, k] of Object.entries(parseInt(c.name) >= 8 ? upperPlan : lowerPlan)) for (let i = 0; i < k; i++) jobs.push({ c, sub });
     jobs.sort((a, b) => rnd() - 0.5);
     for (const { c, sub } of jobs) {
-      const slots = []; for (let d = 1; d <= 5; d++) for (let h = 1; h <= 6; h++) slots.push(d + '-' + h);
+      const slots = []; for (let d = 1; d <= 5; d++) for (let h = 1; h <= HRS; h++) slots.push(d + '-' + h);
       slots.sort(() => rnd() - 0.5);
       let placed = false;
       for (const k of slots) {
@@ -329,7 +333,7 @@ $app.addEventListener('click', e => {
     a.download = 'uchilishte-danni.json'; a.click();
   } else if (act === 'reset') {
     if (!confirm('Да се изтрият ли ВСИЧКИ данни?')) return;
-    state = blank(); render();
+    state = blank(); state.seeded = true; render();
   }
 });
 
@@ -364,4 +368,13 @@ $app.addEventListener('change', e => {
   }
 });
 
+/* При първо отваряне: примерна програма, учители и две примерни отсъствия */
+if (!state.teachers.length && !state.seeded) {
+  state = demoData(); state.seeded = true;
+  const d = new Date(); while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+  const ds = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  state.ui.date = ds;
+  const pick = sub => state.teachers.find(t => t.kind === 'teacher' && t.subjects[0] === sub);
+  state.absences[ds] = [pick('БЕЛ'), pick('Математика')].filter(Boolean).map(t => ({ teacherId: t.id, hours: null }));
+}
 render();
