@@ -43,3 +43,9 @@ th{background:var(--bg);font-weight:600}
 .alert.bad{background:var(--badbg);color:var(--bad)}
 .alert.ok{background:var(--okbg);color:var(--ok)}
 @media print{.top,.noprint{display:none!important}.card{border:0;padding:0}body{background:#fff;color:#000}}
+.sw{display:inline-block;width:16px;height:16px;border-radius:4px;border:1px solid rgba(0,0,0,.25);vertical-align:middle;margin-right:5px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;margin-bottom:6px;font-size:13px}
+.vgrid td{min-width:88px;font-size:12px;text-align:center;padding:4px;color:#1d2433;line-height:1.25}
+.vgrid td .gone{text-decoration:line-through;opacity:.75}
+.vgrid td.nosub{background:repeating-linear-gradient(45deg,#c6c9d1,#c6c9d1 6px,#f3b3b6 6px,#f3b3b6 12px);font-weight:600}
+.cell{padding:4px;border-radius:6px;color:#1d2433}

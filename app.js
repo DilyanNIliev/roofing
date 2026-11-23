@@ -19,8 +19,14 @@ function load() {
   return blank();
 }
 let state = load();
+state.teachers.forEach((t, i) => { if (!t.color) t.color = teacherColor(i); });
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
 
+const teacherColor = i => `hsl(${Math.round((i * 137.508) % 360)},${i % 2 ? 72 : 62}%,${i % 3 === 0 ? 74 : i % 3 === 1 ? 82 : 68}%)`;
+const GREY = '#c6c9d1';
+const colorOf = id => (tById(id) || {}).color || GREY;
+const shortName = id => { const t = tById(id); if (!t) return '—'; const p = t.name.split(' '); return p.length > 1 ? p[0][0] + '. ' + p.slice(1).join(' ') : t.name; };
+const weeklyLoad = id => state.classes.reduce((n, c) => n + Object.values(c.lessons).filter(l => l.teacherId === id).length, 0);
 const tById = id => state.teachers.find(t => t.id === id);
 const tName = id => (tById(id) || {}).name || '—';
 const norm = Scheduler.norm;
@@ -82,6 +88,7 @@ function viewSub() {
   }).join('');
   h += `</div>`;
 
+  if (!res.weekend && state.classes.length) h += viewGrid(date, res);
   const lg = state.log[date];
   if (lg && lg.lines.length) h += `<div class="card"><h2>Последни промени в разпределението</h2><div class="muted small">${esc(lg.reason)}</div><ul class="log">${lg.lines.map(l => `<li>${l}</li>`).join('')}</ul></div>`;
 
@@ -113,6 +120,27 @@ function viewSub() {
   return h;
 }
 
+function viewGrid(date, res) {
+  const dow = Scheduler.dayOf(date), H = state.settings.hours;
+  let h = `<div class="card"><h2>Визуален преглед на деня</h2>
+  <div class="legend">${state.teachers.map(t => `<span class="lg"><span class="sw" style="background:${t.color}"></span>${esc(shortName(t.id))}</span>`).join('')}</div>
+  <p class="muted small">Всеки учител е със свой цвят. Час на отсъстващ учител е <b>наполовина сив</b>, а другата половина е в цвета на заместника. Изцяло сив с червено = няма заместник.</p>
+  <div class="tablewrap"><table class="vgrid"><tr><th>Час</th>${state.classes.map(c => `<th>${esc(c.name)}</th>`).join('')}</tr>`;
+  for (let n = 1; n <= H; n++) {
+    h += `<tr><th>${n}</th>`;
+    for (const c of state.classes) {
+      const l = c.lessons[dow + '-' + n];
+      if (!l || !l.teacherId) { h += `<td></td>`; continue; }
+      const it = res.items.find(i => i.classId === c.id && i.hour === n);
+      if (!it) h += `<td style="background:${colorOf(l.teacherId)}"><b>${esc(l.subject)}</b><br><span>${esc(shortName(l.teacherId))}</span></td>`;
+      else if (it.subId) h += `<td style="background:linear-gradient(135deg,${GREY} 50%,${colorOf(it.subId)} 50%)"><b>${esc(l.subject)}</b><br><span class="gone">${esc(shortName(l.teacherId))}</span><br><span>→ ${esc(shortName(it.subId))}</span></td>`;
+      else h += `<td class="nosub"><b>${esc(l.subject)}</b><br><span class="gone">${esc(shortName(l.teacherId))}</span><br><span>няма заместник</span></td>`;
+    }
+    h += `</tr>`;
+  }
+  return h + `</table></div></div>`;
+}
+
 /* ---------- Учители ---------- */
 function viewTeachers() {
   const H = state.settings.hours;
@@ -124,14 +152,14 @@ function viewTeachers() {
   <div class="card"><h2>Учители (${state.teachers.length})</h2>`;
   if (!state.teachers.length) h += `<p class="muted">Няма учители.</p>`;
   else {
-    h += `<div class="tablewrap"><table><tr><th>Име</th><th>Вид</th><th>Специалности</th><th></th></tr>`;
+    h += `<div class="tablewrap"><table><tr><th>Цвят</th><th>Име</th><th>Вид</th><th>Специалности</th><th>Часове/седм.</th><th></th></tr>`;
     for (const t of state.teachers) {
-      h += `<tr><td><input data-t="${t.id}" data-f="name" value="${esc(t.name)}"></td>
+      h += `<tr><td><span class="sw" style="background:${t.color}"></span></td><td><input data-t="${t.id}" data-f="name" value="${esc(t.name)}"></td>
        <td><select data-t="${t.id}" data-f="kind"><option value="teacher" ${t.kind === 'teacher' ? 'selected' : ''}>Учител</option><option value="afterschool" ${t.kind === 'afterschool' ? 'selected' : ''}>Занималня</option></select></td>
        <td><input data-t="${t.id}" data-f="subjects" list="subjects" value="${esc(t.subjects.join(', '))}" size="34"></td>
-       <td><button class="btn del" data-act="del-teacher" data-id="${t.id}">Изтрий</button></td></tr>`;
+       <td><b>${weeklyLoad(t.id)}</b></td><td><button class="btn del" data-act="del-teacher" data-id="${t.id}">Изтрий</button></td></tr>`;
       if (t.kind === 'afterschool') {
-        h += `<tr><td colspan="4" class="small"><b>Свободни места на ${esc(t.name)}</b> – кликни за заето (червено). Свободен = може да замества.<br>`;
+        h += `<tr><td colspan="6" class="small"><b>Свободни места на ${esc(t.name)}</b> – кликни за заето (червено). Свободен = може да замества.<br>`;
         for (let d = 1; d <= 5; d++) {
           h += `<span class="muted" style="display:inline-block;width:90px">${DAYS[d]}</span><span class="chips" style="display:inline-flex;margin:2px 0">` +
             Array.from({ length: H }, (_, i) => i + 1).map(n => `<span class="chip ${(t.busy || {})[d + '-' + n] ? 'busy' : 'on'}" data-act="busy" data-id="${t.id}" data-key="${d}-${n}">${n}</span>`).join('') + `</span><br>`;
@@ -167,7 +195,7 @@ function viewSchedule() {
       const spec = state.teachers.filter(t => t.kind === 'teacher' && Scheduler.hasSpec(t, l.subject));
       const other = state.teachers.filter(t => t.kind === 'teacher' && !spec.includes(t));
       const o = t => `<option value="${t.id}" ${l.teacherId === t.id ? 'selected' : ''}>${esc(t.name)}</option>`;
-      h += `<td><div class="cell ${conflict ? 'conflict' : ''}" ${conflict ? 'title="Учителят има друг час по същото време!"' : ''}>
+      h += `<td><div class="cell ${conflict ? 'conflict' : ''}" style="background:${colorOf(l.teacherId)}" ${conflict ? 'title="Учителят има друг час по същото време!"' : ''}>
         <input list="subjects" data-cell="${key}" data-p="subject" value="${esc(l.subject)}" placeholder="предмет">
         <select data-cell="${key}" data-p="teacherId"><option value="">— учител —</option>
         ${spec.length ? `<optgroup label="Специалисти">${spec.map(o).join('')}</optgroup>` : ''}
@@ -198,33 +226,46 @@ function viewData() {
 
 /* ---------- Примерни данни ---------- */
 function demoData() {
-  const s = blank();
-  const T = (name, subjects, kind = 'teacher') => ({ id: uid(), name, kind, subjects, busy: {} });
-  s.teachers = [T('Мария Иванова', ['БЕЛ']), T('Елена Петрова', ['БЕЛ']), T('Стефан Георгиев', ['Математика']), T('Николай Димитров', ['Математика', 'Информатика']),
-    T('Анна Колева', ['Английски език']), T('Петър Стоянов', ['История', 'География']), T('Ралица Тодорова', ['Биология']), T('Иван Николов', ['Физика', 'Информатика']),
-    T('Ирина Маринова', ['Музика', 'Изобразително изкуство']), T('Георги Василев', ['Физическо възпитание']),
-    T('Ани Желязкова', ['БЕЛ', 'Математика'], 'afterschool'), T('Красимир Попов', ['Физическо възпитание'], 'afterschool')];
-  const plan = { 'БЕЛ': 4, 'Математика': 4, 'Английски език': 3, 'История': 2, 'География': 2, 'Биология': 2, 'Информатика': 1, 'Музика': 1, 'Изобразително изкуство': 1, 'Физическо възпитание': 2 };
-  let seed = 7; const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
-  const busy = new Set();
-  s.classes = ['5А', '5Б', '6А', '6Б'].map(name => {
-    const c = { id: uid(), name, lessons: {} };
-    const list = Object.entries(plan).flatMap(([sub, n]) => Array(n).fill(sub));
-    for (const sub of list) {
+  const first = ['Мария', 'Елена', 'Стефан', 'Николай', 'Анна', 'Петър', 'Ралица', 'Иван', 'Ирина', 'Георги', 'Десислава', 'Борис', 'Виолета', 'Тодор', 'Силвия', 'Драгомир', 'Надежда', 'Калоян', 'Росица', 'Владимир', 'Цветана', 'Любомир', 'Мирела', 'Красимир', 'Ани'];
+  const last = ['Иванова', 'Петрова', 'Георгиев', 'Димитров', 'Колева', 'Стоянов', 'Тодорова', 'Николов', 'Маринова', 'Василев', 'Христова', 'Атанасов', 'Костова', 'Попов', 'Андреева', 'Йорданов', 'Павлова', 'Митев', 'Ненова', 'Данов', 'Станева', 'Ангелов', 'Захариева', 'Борисов', 'Желязкова'];
+  // [специалности, брой учители]
+  const groups = [[['БЕЛ'], 4], [['Математика'], 4], [['Английски език'], 3], [['История', 'География'], 4], [['Биология'], 2],
+    [['Информатика', 'Технологии'], 2], [['Физическо възпитание'], 2], [['Музика', 'Изобразително изкуство'], 2]];
+  const plan = { 'БЕЛ': 5, 'Математика': 4, 'Английски език': 3, 'История': 2, 'География': 2, 'Биология': 2, 'Информатика': 1, 'Технологии': 1, 'Музика': 1, 'Изобразително изкуство': 1, 'Физическо възпитание': 2 };
+  const classNames = []; for (let g = 1; g <= 7; g++) for (const p of (g === 6 ? ['А', 'Б', 'В'] : ['А', 'Б'])) classNames.push(g + p);
+  const CAP = 20;
+
+  for (let attempt = 1; attempt < 300; attempt++) {
+    let seed = attempt * 7919; const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+    const s = blank(); let n = 0;
+    for (const [subs, cnt] of groups) for (let i = 0; i < cnt; i++, n++)
+      s.teachers.push({ id: uid(), name: first[n] + ' ' + last[n], kind: 'teacher', subjects: subs, busy: {}, color: teacherColor(n) });
+    for (const sub of [['БЕЛ', 'Математика'], ['Физическо възпитание']]) {
+      s.teachers.push({ id: uid(), name: first[n] + ' ' + last[n], kind: 'afterschool', subjects: sub, busy: {}, color: teacherColor(n) }); n++;
+    }
+    const busy = new Set(), load = {}; let ok = true;
+    s.classes = classNames.map(name => ({ id: uid(), name, lessons: {} }));
+    const jobs = [];
+    for (const c of s.classes) for (const [sub, k] of Object.entries(plan)) for (let i = 0; i < k; i++) jobs.push({ c, sub });
+    jobs.sort((a, b) => rnd() - 0.5);
+    for (const { c, sub } of jobs) {
       const slots = []; for (let d = 1; d <= 5; d++) for (let h = 1; h <= 6; h++) slots.push(d + '-' + h);
       slots.sort(() => rnd() - 0.5);
+      let placed = false;
       for (const k of slots) {
         const d = k.split('-')[0];
         if (c.lessons[k] || Object.entries(c.lessons).some(([kk, l]) => kk.startsWith(d + '-') && l.subject === sub)) continue;
-        const t = s.teachers.find(t => t.kind === 'teacher' && t.subjects.includes(sub) && !busy.has(t.id + k));
-        if (!t) continue;
-        busy.add(t.id + k); c.lessons[k] = { subject: sub, teacherId: t.id }; break;
+        const cand = s.teachers.filter(t => t.kind === 'teacher' && t.subjects.includes(sub) && !busy.has(t.id + k) && (load[t.id] || 0) < CAP)
+          .sort((a, b) => (load[a.id] || 0) - (load[b.id] || 0))[0];
+        if (!cand) continue;
+        busy.add(cand.id + k); load[cand.id] = (load[cand.id] || 0) + 1; c.lessons[k] = { subject: sub, teacherId: cand.id }; placed = true; break;
       }
+      if (!placed) { ok = false; break; }
     }
-    return c;
-  });
-  s.ui.classId = s.classes[0].id;
-  return s;
+    const loads = s.teachers.filter(t => t.kind === 'teacher').map(t => load[t.id] || 0);
+    if (ok && Math.min(...loads) >= 4 && Math.max(...loads) <= CAP) { s.ui.classId = s.classes[0].id; return s; }
+  }
+  alert('Не успях да генерирам програма.'); return blank();
 }
 
 /* ---------- Рендер и събития ---------- */
@@ -261,7 +302,7 @@ $app.addEventListener('click', e => {
     });
   } else if (act === 'add-teacher') {
     const name = document.getElementById('nt-name').value.trim(); if (!name) return;
-    state.teachers.push({ id: uid(), name, kind: document.getElementById('nt-kind').value, busy: {},
+    state.teachers.push({ id: uid(), color: teacherColor(state.teachers.length), name, kind: document.getElementById('nt-kind').value, busy: {},
       subjects: document.getElementById('nt-subj').value.split(',').map(x => x.trim()).filter(Boolean) });
     render();
   } else if (act === 'del-teacher') {
