@@ -329,7 +329,7 @@ $app.addEventListener('click', e => {
     a.download = 'uchilishte-danni.json'; a.click();
   } else if (act === 'reset') {
     if (!confirm('Да се изтрият ли ВСИЧКИ данни?')) return;
-    state = blank(); render();
+    state = blank(); state.seeded = true; render();
   }
 });
 
@@ -364,4 +364,13 @@ $app.addEventListener('change', e => {
   }
 });
 
+/* При първо отваряне: примерна програма, учители и две примерни отсъствия */
+if (!state.teachers.length && !state.seeded) {
+  state = demoData(); state.seeded = true;
+  const d = new Date(); while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+  const ds = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  state.ui.date = ds;
+  const pick = sub => state.teachers.find(t => t.kind === 'teacher' && t.subjects[0] === sub);
+  state.absences[ds] = [pick('БЕЛ'), pick('Математика')].filter(Boolean).map(t => ({ teacherId: t.id, hours: null }));
+}
 render();
