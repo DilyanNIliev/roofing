@@ -49,3 +49,4 @@ th{background:var(--bg);font-weight:600}
 .vgrid td .gone{text-decoration:line-through;opacity:.75}
 .vgrid td.nosub{background:repeating-linear-gradient(45deg,#c6c9d1,#c6c9d1 6px,#f3b3b6 6px,#f3b3b6 12px);font-weight:600}
 .cell{padding:4px;border-radius:6px;color:#1d2433}
+.vgrid td.noclass{color:var(--mut);background:var(--bg);font-size:12px}
