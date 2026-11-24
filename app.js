@@ -26,18 +26,18 @@ const teacherColor = i => `hsl(${Math.round((i * 137.508) % 360)},${i % 2 ? 72 :
 const GREY = '#c6c9d1';
 const colorOf = id => (tById(id) || {}).color || GREY;
 const shortName = id => { const t = tById(id); if (!t) return '—'; const p = t.name.split(' '); return p.length > 1 ? p[0][0] + '. ' + p.slice(1).join(' ') : t.name; };
-const weeklyLoad = id => state.classes.reduce((n, c) => n + Object.values(c.lessons).filter(l => l.teacherId === id).length, 0);
+const weeklyLoad = id => state.classes.reduce((n, c) => n + Object.values(c.lessons).filter(l => l.teacherId === id).length, 0) + 5 * (Number((state.teachers.find(t => t.id === id) || {}).afterHours) || 0);
 function workdays(from, to) {
   const out = [], a = new Date(from + 'T00:00:00Z'), b = new Date((to || from) + 'T00:00:00Z');
   for (let d = a; d <= b && out.length < 400; d = new Date(d.getTime() + 864e5)) { const w = d.getUTCDay(); if (w >= 1 && w <= 5) out.push(d.toISOString().slice(0, 10)); }
   return out;
 }
 const NORM = () => Number(state.settings.norm) || 18, WEEKS = () => Number(state.settings.weeks) || 36;
-const dayLoad = id => [1, 2, 3, 4, 5].map(d => state.classes.reduce((n, c) => n + Object.entries(c.lessons).filter(([k, l]) => l.teacherId === id && k.startsWith(d + '-')).length, 0));
+const dayLoad = id => [1, 2, 3, 4, 5].map(d => (Number((state.teachers.find(t => t.id === id) || {}).afterHours) || 0) + state.classes.reduce((n, c) => n + Object.entries(c.lessons).filter(([k, l]) => l.teacherId === id && k.startsWith(d + '-')).length, 0));
 function normCell(t) {
   const w = weeklyLoad(t.id), days = dayLoad(t.id).join(' / ');
   const fr = freeCount(t), tot = 5 * state.settings.hours, frc = `<td>${fr} от ${tot}</td>`;
-  if (t.kind !== 'teacher') return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td>${frc}<td class="muted">няма норма</td>`;
+  if (t.kind !== 'teacher' && !t.afterHours) return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td>${frc}<td class="muted">няма норма</td>`;
   const diff = w - NORM(), cls = diff < 0 ? 'b-free' : diff <= 4 ? 'b-specialist' : 'b-none', sg = diff > 0 ? '+' : '';
   return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td>${frc}<td><span class="badge ${cls}">${sg}${diff} ч./седм. (${sg}${diff * WEEKS()} за год.)</span></td>`;
 }
@@ -216,7 +216,7 @@ function viewTeachers() {
        <td><input data-t="${t.id}" data-f="subjects" list="subjects" value="${esc(t.subjects.join(', '))}" size="34"></td>
        ${normCell(t)}<td><button class="btn del" data-act="del-teacher" data-id="${t.id}">Изтрий</button></td></tr>`;
       const open = t.kind === 'afterschool' ? state.ui.open?.[t.id] !== false : !!state.ui.open?.[t.id];
-      h += `<tr><td colspan="10" class="small">${'' }<button class="btn" data-act="toggle-grid" data-id="${t.id}">${open ? '▾ Скрий графика' : '▸ График със заети и свободни часове'}</button> <span class="muted">${t.kind === 'afterschool' ? 'Свободният час (зелен) е място за заместване – кликни, за да го отбележиш като заето.' : ''}</span>
+      h += `<tr><td colspan="10" class="small">${'' }${t.kind === 'afterschool' ? `<label>Занималня след часовете: <input type="number" min="0" max="8" data-t="${t.id}" data-f="afterHours" value="${t.afterHours || 0}" style="width:60px"> ч./ден</label> ` : ''}<button class="btn" data-act="toggle-grid" data-id="${t.id}">${open ? '▾ Скрий графика' : '▸ График със заети и свободни часове'}</button> <span class="muted">${t.kind === 'afterschool' ? 'Свободният час (зелен) е място за заместване; часовете на занималнята са след уроците – кликни, за да го отбележиш като заето.' : ''}</span>
         ${open ? `<div style="margin-top:6px">${scheduleGrid(t)}</div>` : ''}</td></tr>`;
     }
     h += `</table></div>`;
@@ -377,7 +377,8 @@ $app.addEventListener('change', e => {
     });
   } else if (el.dataset.t) {
     const t = tById(el.dataset.t), f = el.dataset.f;
-    if (f === 'subjects') t.subjects = el.value.split(',').map(x => x.trim()).filter(Boolean);
+    if (f === 'afterHours') t.afterHours = Math.max(0, Math.min(8, Number(el.value) || 0));
+    else if (f === 'subjects') t.subjects = el.value.split(',').map(x => x.trim()).filter(Boolean);
     else t[f] = el.value;
     render();
   } else if (el.dataset.cell) {
