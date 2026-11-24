@@ -7,7 +7,7 @@ body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-app
 nav{display:flex;gap:6px;flex-wrap:wrap}
 nav button{border:1px solid var(--bd);background:transparent;color:var(--tx);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:14px}
 nav button.on{background:var(--pri);border-color:var(--pri);color:#fff}
-main{max-width:1100px;margin:0 auto;padding:16px}
+main{max-width:1320px;margin:0 auto;padding:16px}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:16px}
 .card h2{margin:0 0 10px;font-size:16px}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
@@ -50,3 +50,7 @@ th{background:var(--bg);font-weight:600}
 .vgrid td.nosub{background:repeating-linear-gradient(45deg,#c6c9d1,#c6c9d1 6px,#f3b3b6 6px,#f3b3b6 12px);font-weight:600}
 .cell{padding:4px;border-radius:6px;color:#1d2433}
 .vgrid td.noclass{color:var(--mut);background:var(--bg);font-size:12px}
+.tt th{white-space:nowrap}
+.tt td:nth-child(n+5){white-space:nowrap}
+.tt td:nth-child(2) input{min-width:150px;width:100%}
+.tt td:nth-child(4) input{min-width:220px;width:100%}
