@@ -27,6 +27,11 @@ const GREY = '#c6c9d1';
 const colorOf = id => (tById(id) || {}).color || GREY;
 const shortName = id => { const t = tById(id); if (!t) return '—'; const p = t.name.split(' '); return p.length > 1 ? p[0][0] + '. ' + p.slice(1).join(' ') : t.name; };
 const weeklyLoad = id => state.classes.reduce((n, c) => n + Object.values(c.lessons).filter(l => l.teacherId === id).length, 0);
+function workdays(from, to) {
+  const out = [], a = new Date(from + 'T00:00:00Z'), b = new Date((to || from) + 'T00:00:00Z');
+  for (let d = a; d <= b && out.length < 400; d = new Date(d.getTime() + 864e5)) { const w = d.getUTCDay(); if (w >= 1 && w <= 5) out.push(d.toISOString().slice(0, 10)); }
+  return out;
+}
 const byName = (a, b) => a.name.localeCompare(b.name, 'bg');
 const sortedTeachers = () => [...state.teachers].sort(byName);
 const tById = id => state.teachers.find(t => t.id === id);
@@ -74,19 +79,23 @@ function viewSub() {
   const abs = state.absences[date] || [];
   const H = state.settings.hours;
   const absentIds = new Set(abs.map(a => a.teacherId));
+  const endOk = state.ui.endDate && state.ui.endDate > date;
   const opts = sortedTeachers().filter(t => !absentIds.has(t.id))
     .map(t => `<option value="${t.id}">${esc(t.name)}${t.kind === 'afterschool' ? ' (занималня)' : ''}</option>`).join('');
   let h = `<div class="card"><h2>Дата и отсъстващи учители</h2>
-  <div class="row noprint"><input type="date" id="date" value="${date}">
+  <div class="row noprint"><label class="small">От <input type="date" id="date" value="${date}"></label>
+   <label class="small">до (по избор) <input type="date" id="endDate" value="${state.ui.endDate || ''}" min="${date}"></label>
    <select id="absSel"><option value="">— избери отсъстващ учител —</option>${opts}</select>
-   <button class="btn pri" data-act="add-abs">Добави отсъствие</button></div>`;
+   <button class="btn pri" data-act="add-abs">Добави отсъствие${endOk ? ' за периода' : ''}</button></div>
+   ${endOk ? `<p class="muted small noprint">Период: ${date} – ${state.ui.endDate} (${workdays(date, state.ui.endDate).length} работни дни; събота и неделя се пропускат).</p>` : ''}`;
   if (res.weekend) h += `<p class="muted">Избраната дата е почивен ден.</p>`;
   if (!state.teachers.length) h += `<p class="alert">Още няма въведени учители. Започни от таба „Учители“ или зареди примерни данни от „Данни“.</p>`;
   h += abs.map(a => {
     const chips = Array.from({ length: H }, (_, i) => i + 1).map(n =>
       `<span class="chip ${!a.hours || a.hours.includes(n) ? 'on' : ''}" data-act="abs-hour" data-id="${a.teacherId}" data-h="${n}">${n}</span>`).join('');
     return `<div class="abs"><b>${esc(tName(a.teacherId))}</b><span class="muted small">отсъства в часове:</span><div class="chips">${chips}</div>
-      <button class="btn del noprint" data-act="del-abs" data-id="${a.teacherId}">✕ Премахни</button></div>`;
+      <button class="btn del noprint" data-act="del-abs" data-id="${a.teacherId}">✕ Премахни</button>
+      ${endOk ? `<button class="btn del noprint" data-act="del-abs-range" data-id="${a.teacherId}">✕ Премахни за периода</button>` : ''}</div>`;
   }).join('');
   h += `</div>`;
 
@@ -255,9 +264,19 @@ $app.addEventListener('click', e => {
   const date = state.ui.date;
   if (act === 'add-abs') {
     const v = document.getElementById('absSel').value; if (!v) return;
-    changeAbsences(`Добавено отсъствие: ${tName(v)}`, () => { (state.absences[date] = state.absences[date] || []).push({ teacherId: v, hours: null }); });
+    const end = state.ui.endDate && state.ui.endDate > date ? state.ui.endDate : date;
+    changeAbsences(`Добавено отсъствие: ${tName(v)}${end > date ? ' (' + date + ' – ' + end + ')' : ''}`, () => {
+      for (const d of workdays(date, end)) {
+        const list = state.absences[d] = state.absences[d] || [];
+        if (!list.some(a => a.teacherId === v)) list.push({ teacherId: v, hours: null });
+      }
+    });
   } else if (act === 'del-abs') {
     changeAbsences(`Премахнато отсъствие: ${tName(id)}`, () => { state.absences[date] = state.absences[date].filter(a => a.teacherId !== id); });
+  } else if (act === 'del-abs-range') {
+    changeAbsences(`Премахнато отсъствие за периода: ${tName(id)}`, () => {
+      for (const d of workdays(date, state.ui.endDate)) if (state.absences[d]) state.absences[d] = state.absences[d].filter(a => a.teacherId !== id);
+    });
   } else if (act === 'abs-hour') {
     const n = Number(el.dataset.h);
     changeAbsences(`Променени часове на отсъствие: ${tName(id)}`, () => {
@@ -302,7 +321,8 @@ $app.addEventListener('click', e => {
 
 $app.addEventListener('change', e => {
   const el = e.target;
-  if (el.id === 'date') { state.ui.date = el.value || todayStr(); render(); }
+  if (el.id === 'date') { state.ui.date = el.value || todayStr(); if (state.ui.endDate && state.ui.endDate <= state.ui.date) state.ui.endDate = ''; render(); }
+  else if (el.id === 'endDate') { state.ui.endDate = el.value; render(); }
   else if (el.dataset.pin !== undefined) {
     const [date, classId, hour] = el.dataset.pin.split('|');
     changeAbsences('Ръчна промяна на заместник', () => {
