@@ -35,11 +35,11 @@ function workdays(from, to) {
 const NORM = () => Number(state.settings.norm) || 18, WEEKS = () => Number(state.settings.weeks) || 36;
 const dayLoad = id => [1, 2, 3, 4, 5].map(d => (Number((state.teachers.find(t => t.id === id) || {}).afterHours) || 0) + state.classes.reduce((n, c) => n + Object.entries(c.lessons).filter(([k, l]) => l.teacherId === id && k.startsWith(d + '-')).length, 0));
 function normCell(t) {
-  const w = weeklyLoad(t.id), days = dayLoad(t.id).join(' / ');
-  const fr = freeCount(t), tot = 5 * state.settings.hours, frc = `<td>${fr} от ${tot}</td>`;
+  const w = weeklyLoad(t.id), days = dayLoad(t.id).join('/');
+  const fr = freeCount(t), tot = 5 * state.settings.hours, frc = `<td>${fr}/${tot}</td>`;
   if (t.kind !== 'teacher' && !t.afterHours) return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td>${frc}<td class="muted">няма норма</td>`;
   const diff = w - NORM(), cls = diff < 0 ? 'b-free' : diff <= 4 ? 'b-specialist' : 'b-none', sg = diff > 0 ? '+' : '';
-  return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td>${frc}<td><span class="badge ${cls}">${sg}${diff} ч./седм. (${sg}${diff * WEEKS()} за год.)</span></td>`;
+  return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td>${frc}<td><span class="badge ${cls}">${sg}${diff} ч. (${sg}${diff * WEEKS()}/год.)</span></td>`;
 }
 function teacherSlot(id, key) {
   for (const c of state.classes) { const l = c.lessons[key]; if (l && l.teacherId === id) return { cls: c.name, subject: l.subject }; }
@@ -209,12 +209,12 @@ function viewTeachers() {
   <div class="card"><h2>Учители (${state.teachers.length})</h2>`;
   if (!state.teachers.length) h += `<p class="muted">Няма учители.</p>`;
   else {
-    h += `<div class="tablewrap"><table class="tt"><tr><th>Цвят</th><th>Име</th><th>Вид</th><th>Специалности</th><th>Часове/седм.</th><th>Пн / Вт / Ср / Чт / Пт</th><th>Часове/год.</th><th>Свободни</th><th>Спрямо нормата (${NORM()} ч.)</th><th></th></tr>`;
+    h += `<div class="tablewrap"><table class="tt"><tr><th></th><th>Име</th><th>Вид</th><th>Специалности</th><th>Ч./седм.</th><th>Пн/Вт/Ср/Чт/Пт</th><th>Ч./год.</th><th>Свободни</th><th>Норма ${NORM()} ч.</th><th></th></tr>`;
     for (const t of sortedTeachers()) {
       h += `<tr><td><span class="sw" style="background:${t.color}"></span></td><td><input data-t="${t.id}" data-f="name" value="${esc(t.name)}"></td>
        <td><select data-t="${t.id}" data-f="kind"><option value="teacher" ${t.kind === 'teacher' ? 'selected' : ''}>Учител</option><option value="afterschool" ${t.kind === 'afterschool' ? 'selected' : ''}>Занималня</option></select></td>
-       <td><input data-t="${t.id}" data-f="subjects" list="subjects" value="${esc(t.subjects.join(', '))}" size="34"></td>
-       ${normCell(t)}<td><button class="btn del" data-act="del-teacher" data-id="${t.id}">Изтрий</button></td></tr>`;
+       <td><input data-t="${t.id}" data-f="subjects" list="subjects" value="${esc(t.subjects.join(', '))}"></td>
+       ${normCell(t)}<td><button class="btn del" data-act="del-teacher" data-id="${t.id}" title="Изтрий учителя">✕</button></td></tr>`;
       const open = t.kind === 'afterschool' ? state.ui.open?.[t.id] !== false : !!state.ui.open?.[t.id];
       h += `<tr><td colspan="10" class="small">${'' }${t.kind === 'afterschool' ? `<label>Занималня след часовете: <input type="number" min="0" max="8" data-t="${t.id}" data-f="afterHours" value="${t.afterHours || 0}" style="width:60px"> ч./ден</label> ` : ''}<button class="btn" data-act="toggle-grid" data-id="${t.id}">${open ? '▾ Скрий графика' : '▸ График със заети и свободни часове'}</button> <span class="muted">${t.kind === 'afterschool' ? 'Свободният час (зелен) е място за заместване; часовете на занималнята са след уроците – кликни, за да го отбележиш като заето.' : ''}</span>
         ${open ? `<div style="margin-top:6px">${scheduleGrid(t)}</div>` : ''}</td></tr>`;

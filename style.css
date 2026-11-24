@@ -50,10 +50,17 @@ th{background:var(--bg);font-weight:600}
 .vgrid td.nosub{background:repeating-linear-gradient(45deg,#c6c9d1,#c6c9d1 6px,#f3b3b6 6px,#f3b3b6 12px);font-weight:600}
 .cell{padding:4px;border-radius:6px;color:#1d2433}
 .vgrid td.noclass{color:var(--mut);background:var(--bg);font-size:12px}
+.tt{font-size:13px}
+.tt th,.tt td{padding:4px 6px}
 .tt th{white-space:nowrap}
 .tt td:nth-child(n+5){white-space:nowrap}
-.tt td:nth-child(2) input{min-width:150px;width:100%}
-.tt td:nth-child(4) input{min-width:220px;width:100%}
+.tt input,.tt select{padding:3px 6px;font-size:13px;width:100%;min-width:0}
+.tt td:nth-child(1){width:26px}
+.tt td:nth-child(2){width:15%}
+.tt td:nth-child(3){width:125px}
+.tt td:nth-child(4){width:22%}
+.tt .badge{font-size:11px;padding:1px 6px}
+.tt td>button.btn.del{padding:2px 8px}
 .tg{width:auto;min-width:520px}
 .tg td{font-size:12px;text-align:center;padding:4px 6px;min-width:96px;color:#1d2433}
 .tg td.free{background:var(--okbg);color:var(--ok);cursor:pointer}
