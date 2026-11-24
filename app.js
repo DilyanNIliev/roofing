@@ -9,7 +9,7 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': 
 const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
 
 function blank() {
-  return { settings: { hours: 7, allowFree: true }, teachers: [], classes: [], absences: {}, pins: {}, log: {}, ui: { tab: 'sub', date: todayStr(), classId: null } };
+  return { settings: { hours: 7, allowFree: true, norm: 18, weeks: 36 }, teachers: [], classes: [], absences: {}, pins: {}, log: {}, ui: { tab: 'sub', date: todayStr(), classId: null } };
 }
 function load() {
   try {
@@ -31,6 +31,14 @@ function workdays(from, to) {
   const out = [], a = new Date(from + 'T00:00:00Z'), b = new Date((to || from) + 'T00:00:00Z');
   for (let d = a; d <= b && out.length < 400; d = new Date(d.getTime() + 864e5)) { const w = d.getUTCDay(); if (w >= 1 && w <= 5) out.push(d.toISOString().slice(0, 10)); }
   return out;
+}
+const NORM = () => Number(state.settings.norm) || 18, WEEKS = () => Number(state.settings.weeks) || 36;
+const dayLoad = id => [1, 2, 3, 4, 5].map(d => state.classes.reduce((n, c) => n + Object.entries(c.lessons).filter(([k, l]) => l.teacherId === id && k.startsWith(d + '-')).length, 0));
+function normCell(t) {
+  const w = weeklyLoad(t.id), days = dayLoad(t.id).join(' / ');
+  if (t.kind !== 'teacher') return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td><td class="muted">няма норма</td>`;
+  const diff = w - NORM(), cls = diff < 0 ? 'b-free' : diff <= 4 ? 'b-specialist' : 'b-none', sg = diff > 0 ? '+' : '';
+  return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td><td><span class="badge ${cls}">${sg}${diff} ч./седм. (${sg}${diff * WEEKS()} за год.)</span></td>`;
 }
 const byName = (a, b) => a.name.localeCompare(b.name, 'bg');
 const sortedTeachers = () => [...state.teachers].sort(byName);
@@ -164,14 +172,14 @@ function viewTeachers() {
   <div class="card"><h2>Учители (${state.teachers.length})</h2>`;
   if (!state.teachers.length) h += `<p class="muted">Няма учители.</p>`;
   else {
-    h += `<div class="tablewrap"><table><tr><th>Цвят</th><th>Име</th><th>Вид</th><th>Специалности</th><th>Часове/седм.</th><th></th></tr>`;
+    h += `<div class="tablewrap"><table class="tt"><tr><th>Цвят</th><th>Име</th><th>Вид</th><th>Специалности</th><th>Часове/седм.</th><th>Пн / Вт / Ср / Чт / Пт</th><th>Часове/год.</th><th>Спрямо нормата (${NORM()} ч.)</th><th></th></tr>`;
     for (const t of sortedTeachers()) {
       h += `<tr><td><span class="sw" style="background:${t.color}"></span></td><td><input data-t="${t.id}" data-f="name" value="${esc(t.name)}"></td>
        <td><select data-t="${t.id}" data-f="kind"><option value="teacher" ${t.kind === 'teacher' ? 'selected' : ''}>Учител</option><option value="afterschool" ${t.kind === 'afterschool' ? 'selected' : ''}>Занималня</option></select></td>
        <td><input data-t="${t.id}" data-f="subjects" list="subjects" value="${esc(t.subjects.join(', '))}" size="34"></td>
-       <td><b>${weeklyLoad(t.id)}</b></td><td><button class="btn del" data-act="del-teacher" data-id="${t.id}">Изтрий</button></td></tr>`;
+       ${normCell(t)}<td><button class="btn del" data-act="del-teacher" data-id="${t.id}">Изтрий</button></td></tr>`;
       if (t.kind === 'afterschool') {
-        h += `<tr><td colspan="6" class="small"><b>Свободни места на ${esc(t.name)}</b> – кликни за заето (червено). Свободен = може да замества.<br>`;
+        h += `<tr><td colspan="9" class="small"><b>Свободни места на ${esc(t.name)}</b> – кликни за заето (червено). Свободен = може да замества.<br>`;
         for (let d = 1; d <= 5; d++) {
           h += `<span class="muted" style="display:inline-block;width:90px">${DAYS[d]}</span><span class="chips" style="display:inline-flex;margin:2px 0">` +
             Array.from({ length: H }, (_, i) => i + 1).map(n => `<span class="chip ${(t.busy || {})[d + '-' + n] ? 'busy' : 'on'}" data-act="busy" data-id="${t.id}" data-key="${d}-${n}">${n}</span>`).join('') + `</span><br>`;
@@ -223,6 +231,8 @@ function viewSchedule() {
 function viewData() {
   return `<div class="card"><h2>Настройки</h2><div class="row">
    <label>Часове на ден: <input type="number" id="hours" min="1" max="12" value="${state.settings.hours}" style="width:70px"></label>
+   <label>Норма часове/седмица: <input type="number" id="norm" min="1" max="40" value="${NORM()}" style="width:70px"></label>
+   <label>Учебни седмици: <input type="number" id="weeks" min="1" max="52" value="${WEEKS()}" style="width:70px"></label>
    <label><input type="checkbox" id="allowFree" ${state.settings.allowFree ? 'checked' : ''}> Редовни учители със свободен час могат да заместват (ако няма по-добър вариант)</label></div></div>
   <div class="card"><h2>Данни</h2><div class="row">
    <button class="btn" data-act="demo">Зареди примерни данни</button>
@@ -342,7 +352,9 @@ $app.addEventListener('change', e => {
     render();
   } else if (el.id === 'hours') {
     state.settings.hours = Math.max(1, Math.min(12, Number(el.value) || 7)); render();
-  } else if (el.id === 'allowFree') { state.settings.allowFree = el.checked; render(); }
+  } else if (el.id === 'norm') { state.settings.norm = Math.max(1, Number(el.value) || 18); render(); }
+  else if (el.id === 'weeks') { state.settings.weeks = Math.max(1, Number(el.value) || 36); render(); }
+  else if (el.id === 'allowFree') { state.settings.allowFree = el.checked; render(); }
   else if (el.id === 'import') {
     const f = el.files[0]; if (!f) return;
     const r = new FileReader();
