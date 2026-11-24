@@ -228,68 +228,9 @@ function viewData() {
 
 /* ---------- Примерни данни ---------- */
 function demoData() {
-  const fF = ['Мария', 'Елена', 'Анна', 'Ралица', 'Ирина', 'Десислава', 'Виолета', 'Силвия', 'Надежда', 'Росица', 'Цветана', 'Мирела'];
-  const fL = ['Иванова', 'Петрова', 'Колева', 'Тодорова', 'Маринова', 'Христова', 'Костова', 'Андреева', 'Павлова', 'Ненова', 'Станева', 'Захариева'];
-  const mF = ['Стефан', 'Николай', 'Петър', 'Иван', 'Георги', 'Борис', 'Тодор', 'Драгомир', 'Калоян', 'Владимир', 'Любомир', 'Красимир'];
-  const mL = ['Георгиев', 'Димитров', 'Стоянов', 'Николов', 'Василев', 'Атанасов', 'Попов', 'Йорданов', 'Митев', 'Данов', 'Ангелов', 'Борисов'];
-  const nameOf = i => { const k = Math.floor(i / 2); return i % 2 ? mF[k % 12] + ' ' + mL[(k + Math.floor(k / 12)) % 12] : fF[k % 12] + ' ' + fL[(k + Math.floor(k / 12)) % 12]; };
-  const PE = 'Физическо възпитание';
-  // Предметни учители за 5–12 клас: [специалности, брой]
-  const groups = [[['БЕЛ'], 5], [['Математика'], 4], [['Английски език'], 3], [['История', 'География'], 4], [['Биология'], 2],
-    [['Физика', 'Химия'], 3], [['Информатика', 'Технологии'], 2], [['Музика', 'Изобразително изкуство'], 1], [[PE], 4]];
-  // 1–4 клас: класният учител води всичко освен физическото
-  const primaryPlan = { 'БЕЛ': 5, 'Математика': 4, 'Околен свят': 2, 'Английски език': 2, 'Музика': 1, 'Изобразително изкуство': 1, 'Технологии': 1, [PE]: 3 };
-  const primarySubjects = Object.keys(primaryPlan).filter(x => x !== PE);
-  const lowerPlan = { 'БЕЛ': 5, 'Математика': 4, 'Английски език': 3, 'История': 2, 'География': 2, 'Биология': 2, 'Информатика': 1, 'Технологии': 1, 'Музика': 1, 'Изобразително изкуство': 1, [PE]: 2 };
-  const upperPlan = { 'БЕЛ': 5, 'Математика': 4, 'Английски език': 3, 'История': 2, 'География': 2, 'Биология': 2, 'Физика': 2, 'Химия': 2, 'Информатика': 1, 'Технологии': 1, [PE]: 2 };
-  const classNames = []; for (let g = 1; g <= 12; g++) for (const p of (g === 6 ? ['А', 'Б', 'В'] : ['А', 'Б'])) classNames.push(g + p);
-  const CAP = 20;
-
-  for (let attempt = 1; attempt < 200; attempt++) {
-    let seed = attempt * 7919; const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
-    const s = blank(); let n = 0;
-    const T = (kind, subjects, extra) => ({ id: uid(), name: nameOf(n), kind, subjects, busy: {}, color: teacherColor(n++), ...extra });
-    for (const [subs, cnt] of groups) for (let i = 0; i < cnt; i++) s.teachers.push(T('teacher', subs));
-    s.classes = classNames.map(name => ({ id: uid(), name, lessons: {} }));
-    for (const c of s.classes) if (parseInt(c.name) <= 4) { const t = T('teacher', primarySubjects); c.homeroom = t.id; s.teachers.push(t); }
-    // Занималня: учители от начален етап + физическо
-    for (let i = 0; i < 3; i++) s.teachers.push(T('afterschool', ['БЕЛ', 'Математика', 'Околен свят', 'Английски език', 'Музика', 'Изобразително изкуство', 'Технологии']));
-    s.teachers.push(T('afterschool', [PE]));
-
-    const busy = new Set(), load = {}; let ok = true;
-    s.classes.forEach((c, ci) => {
-      if (!ok) return;
-      const g = parseInt(c.name), prim = g <= 4, plan = prim ? primaryPlan : g >= 8 ? upperPlan : lowerPlan;
-      const total = Object.values(plan).reduce((a, b) => a + b, 0), base = Math.floor(total / 5), rem = total % 5;
-      // всеки ден часовете са последователни от 1 до k (без „прозорци“)
-      const slots = []; for (let d = 1; d <= 5; d++) { const k = base + (((d - 1 - ci % 5 + 5) % 5) < rem ? 1 : 0); for (let h = 1; h <= k; h++) slots.push(d + '-' + h); }
-      for (let tr = 0; tr < 150; tr++) {
-        const left = { ...plan }, lessons = {}, tb = new Set(), tl = {}, dayUsed = {}; let fail = false;
-        const order = slots.slice().sort(() => rnd() - 0.5);
-        for (const k of order) {
-          const d = k.split('-')[0], opts = [];
-          for (const sub of Object.keys(left)) {
-            if (!left[sub] || (dayUsed[d + sub])) continue;
-            let t;
-            if (prim && sub !== PE) t = tById0(c.homeroom);
-            else t = s.teachers.filter(x => x.kind === 'teacher' && x.subjects.includes(sub) &&
-              !busy.has(x.id + k) && !tb.has(x.id + k) && (load[x.id] || 0) + (tl[x.id] || 0) < CAP && !s.classes.some(cc => cc.homeroom === x.id))
-              .sort((a, b) => ((load[a.id] || 0) + (tl[a.id] || 0)) - ((load[b.id] || 0) + (tl[b.id] || 0)) || rnd() - 0.5)[0];
-            if (t) for (let w = 0; w < left[sub]; w++) opts.push([sub, t]);
-          }
-          if (!opts.length) { fail = true; break; }
-          const [sub, t] = opts[Math.floor(rnd() * opts.length)];
-          left[sub]--; dayUsed[d + sub] = 1; tb.add(t.id + k); tl[t.id] = (tl[t.id] || 0) + 1; lessons[k] = { subject: sub, teacherId: t.id };
-        }
-        if (!fail) { c.lessons = lessons; tb.forEach(x => busy.add(x)); Object.entries(tl).forEach(([id, v]) => load[id] = (load[id] || 0) + v); return; }
-      }
-      ok = false;
-    });
-    function tById0(id) { return s.teachers.find(x => x.id === id); }
-    const loads = s.teachers.filter(t => t.kind === 'teacher').map(t => load[t.id] || 0);
-    if (ok && Math.min(...loads) >= 4 && Math.max(...loads) <= CAP) { s.classes.forEach(c => delete c.homeroom); s.ui.classId = s.classes[0].id; return s; }
-  }
-  alert('Не успях да генерирам програма.'); return blank();
+  const s = JSON.parse(JSON.stringify(window.DEMO_DATA));
+  s.ui = Object.assign(blank().ui, { classId: s.classes[0].id });
+  return s;
 }
 
 /* ---------- Рендер и събития ---------- */
@@ -346,7 +287,7 @@ $app.addEventListener('click', e => {
     state.classes = state.classes.filter(c => c.id !== id); render();
   } else if (act === 'demo') {
     if (state.teachers.length && !confirm('Текущите данни ще бъдат заменени. Продължаваш ли?')) return;
-    const ui = state.ui; state = demoData(); state.ui = Object.assign(state.ui, { tab: 'sub', date: ui.date }); render();
+    const ui = state.ui; state = demoData(); state.ui = Object.assign(state.ui, { tab: 'sub', date: ui.date }); delete state.sampleAbsent; render();
   } else if (act === 'export') {
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([JSON.stringify(state, null, 1)], { type: 'application/json' }));
@@ -390,11 +331,10 @@ $app.addEventListener('change', e => {
 
 /* При първо отваряне: примерна програма, учители и две примерни отсъствия */
 if (!state.teachers.length && !state.seeded) {
-  state = demoData(); state.seeded = true;
+  state = demoData(); state.seeded = true; delete state.sampleAbsent;
   const d = new Date(); while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
   const ds = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   state.ui.date = ds;
-  const pick = sub => state.teachers.find(t => t.kind === 'teacher' && t.subjects[0] === sub);
-  state.absences[ds] = [pick('БЕЛ'), pick('Математика')].filter(Boolean).map(t => ({ teacherId: t.id, hours: null }));
+  state.absences[ds] = (window.DEMO_DATA.sampleAbsent || []).map(id => ({ teacherId: id, hours: null }));
 }
 render();
