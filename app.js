@@ -166,24 +166,36 @@ function viewSub() {
 
 function viewGrid(date, res) {
   const dow = Scheduler.dayOf(date), H = state.settings.hours;
+  const lastAny = Math.max(0, ...state.classes.flatMap(c => Object.keys(c.lessons).filter(k => k.startsWith(dow + '-')).map(k => Number(k.split('-')[1]))));
+  const cols = Math.min(H, lastAny);
+  const byClass = {}; res.items.forEach(i => (byClass[i.classId] = byClass[i.classId] || []).push(i));
   let h = `<div class="card"><h2>Визуален преглед на деня</h2>
   <div class="legend">${sortedTeachers().map(t => `<span class="lg"><span class="sw" style="background:${t.color}"></span>${esc(shortName(t.id))}</span>`).join('')}</div>
   <p class="muted small">Всеки учител е със свой цвят. Час на отсъстващ учител е <b>наполовина сив</b>, а другата половина е в цвета на заместника. Изцяло сив с червено = няма заместник.</p>
-  <div class="tablewrap"><table class="vgrid"><tr><th>Час</th>${state.classes.map(c => `<th>${esc(c.name)}</th>`).join('')}</tr>`;
-  const lastAny = Math.max(0, ...state.classes.flatMap(c => Object.keys(c.lessons).filter(k => k.startsWith(dow + '-')).map(k => Number(k.split('-')[1]))));
-  for (let n = 1; n <= Math.min(H, lastAny); n++) {
-    h += `<tr><th>${n}</th>`;
-    for (const c of state.classes) {
+  <table class="vgrid"><tr><th>Клас</th>${Array.from({ length: cols }, (_, i) => `<th>${i + 1} ч.</th>`).join('')}<th class="subcol">Заместване</th></tr>`;
+  for (const c of state.classes) {
+    const its = byClass[c.id] || [];
+    h += `<tr><th>${esc(c.name)}</th>`;
+    for (let n = 1; n <= cols; n++) {
       const l = c.lessons[dow + '-' + n];
       if (!l || !l.teacherId) { h += `<td class="noclass">–</td>`; continue; }
-      const it = res.items.find(i => i.classId === c.id && i.hour === n);
-      if (!it) h += `<td style="background:${colorOf(l.teacherId)}"><b>${esc(l.subject)}</b><br><span>${esc(shortName(l.teacherId))}</span></td>`;
-      else if (it.subId) h += `<td style="background:linear-gradient(135deg,${GREY} 50%,${colorOf(it.subId)} 50%)"><b>${esc(l.subject)}</b><br><span class="gone">${esc(shortName(l.teacherId))}</span><br><span>→ ${esc(shortName(it.subId))}</span></td>`;
-      else h += `<td class="nosub"><b>${esc(l.subject)}</b><br><span class="gone">${esc(shortName(l.teacherId))}</span><br><span>няма заместник</span></td>`;
+      const it = its.find(i => i.hour === n), sj = esc(l.subject.length > 24 ? l.subject.slice(0, 23) + '…' : l.subject);
+      if (!it) h += `<td style="background:${colorOf(l.teacherId)}"><b>${sj}</b><br><span>${esc(shortName(l.teacherId))}</span></td>`;
+      else if (it.subId) h += `<td style="background:linear-gradient(135deg,${GREY} 50%,${colorOf(it.subId)} 50%)"><b>${sj}</b><br><span class="gone">${esc(shortName(l.teacherId))}</span><br><span>→ ${esc(shortName(it.subId))}</span></td>`;
+      else h += `<td class="nosub"><b>${sj}</b><br><span class="gone">${esc(shortName(l.teacherId))}</span><br><span>няма заместник</span></td>`;
     }
-    h += `</tr>`;
+    h += `<td class="subcol">${its.length ? its.map(i => i.subId ? `<div>${i.hour}. ч.: <b>${esc(shortName(i.subId))}</b> замества ${esc(shortName(i.absentId))}</div>` : `<div class="nosubtxt">${i.hour}. ч.: няма заместник за ${esc(shortName(i.absentId))}</div>`).join('') : '<span class="muted">без замествания</span>'}</td></tr>`;
   }
-  return h + `</table></div></div>`;
+  h += `</table>`;
+  // кой кого замества (по заместник)
+  const by = {}; res.items.filter(i => i.subId).forEach(i => (by[i.subId] = by[i.subId] || []).push(i));
+  const ids = Object.keys(by).sort((a, b) => tName(a).localeCompare(tName(b), 'bg'));
+  h += `<h3 style="margin:16px 0 6px;font-size:15px">Кой кого замества</h3>`;
+  if (!ids.length) h += `<p class="muted small">Няма замествания за този ден.</p>`;
+  else h += `<ul class="who">${ids.map(id => `<li><span class="sw" style="background:${colorOf(id)}"></span><b>${esc(tName(id))}</b> замества: ${by[id].map(i => `${esc(tName(i.absentId))} (${i.hour}. час, ${esc(i.className)}, ${esc(i.subject)})`).join('; ')}</li>`).join('')}</ul>`;
+  const none = res.items.filter(i => !i.subId);
+  if (none.length) h += `<p class="alert bad">Без заместник: ${none.map(i => `${i.hour}. час, ${esc(i.className)} (${esc(i.subject)}, отсъства ${esc(tName(i.absentId))})`).join('; ')}</p>`;
+  return h + `</div>`;
 }
 
 /* ---------- Учители ---------- */

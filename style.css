@@ -45,7 +45,7 @@ th{background:var(--bg);font-weight:600}
 @media print{.top,.noprint{display:none!important}.card{border:0;padding:0}body{background:#fff;color:#000}}
 .sw{display:inline-block;width:16px;height:16px;border-radius:4px;border:1px solid rgba(0,0,0,.25);vertical-align:middle;margin-right:5px}
 .legend{display:flex;flex-wrap:wrap;gap:4px 12px;margin-bottom:6px;font-size:13px}
-.vgrid td{min-width:88px;font-size:12px;text-align:center;padding:4px;color:#1d2433;line-height:1.25}
+.vgrid td{min-width:70px;font-size:12px;text-align:center;padding:4px;color:#1d2433;line-height:1.25}
 .vgrid td .gone{text-decoration:line-through;opacity:.75}
 .vgrid td.nosub{background:repeating-linear-gradient(45deg,#c6c9d1,#c6c9d1 6px,#f3b3b6 6px,#f3b3b6 12px);font-weight:600}
 .cell{padding:4px;border-radius:6px;color:#1d2433}
@@ -59,3 +59,12 @@ th{background:var(--bg);font-weight:600}
 .tg td.free{background:var(--okbg);color:var(--ok);cursor:pointer}
 .tg td.blocked{background:var(--badbg);color:var(--bad);cursor:pointer;font-weight:600}
 .tg td.lesson span{font-size:11px;opacity:.85}
+.vgrid{table-layout:fixed;width:100%}
+.vgrid th:first-child{width:52px}
+.vgrid td.subcol,.vgrid th.subcol{width:24%;text-align:left;font-size:12px;font-weight:400}
+.vgrid th.subcol{font-weight:600}
+.vgrid td.subcol div{margin:1px 0}
+.vgrid .nosubtxt{color:var(--bad);font-weight:600}
+.who{margin:0;padding-left:0;list-style:none;font-size:14px}
+.who li{margin:4px 0}
+@media (max-width:700px){.vgrid{table-layout:auto}}
