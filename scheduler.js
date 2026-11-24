@@ -42,7 +42,7 @@
     const teaching = new Set();
     for (const c of state.classes) { const l = c.lessons[key]; if (l && l.teacherId) teaching.add(l.teacherId); }
     return state.teachers.filter(t => !absentNow.has(t.id) && !teaching.has(t.id) &&
-      (t.kind === 'afterschool' ? !(t.busy && t.busy[key]) : true));
+      !(t.busy && t.busy[key]));
   }
 
   function compute(state, date) {
@@ -80,7 +80,7 @@
 
       if (free.length) {
         const cands = state.teachers.filter(t => !absentNow.has(t.id) && !teaching.has(t.id) && !used.has(t.id) &&
-          (t.kind === 'afterschool' ? !(t.busy && t.busy[key]) : state.settings.allowFree));
+          !(t.busy && t.busy[key]) && (t.kind === 'afterschool' || state.settings.allowFree));
         const cols = cands.length + free.length;
         const cost = free.map(n => {
           const row = [];
