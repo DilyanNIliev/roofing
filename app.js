@@ -126,11 +126,12 @@ function viewGrid(date, res) {
   <div class="legend">${state.teachers.map(t => `<span class="lg"><span class="sw" style="background:${t.color}"></span>${esc(shortName(t.id))}</span>`).join('')}</div>
   <p class="muted small">Всеки учител е със свой цвят. Час на отсъстващ учител е <b>наполовина сив</b>, а другата половина е в цвета на заместника. Изцяло сив с червено = няма заместник.</p>
   <div class="tablewrap"><table class="vgrid"><tr><th>Час</th>${state.classes.map(c => `<th>${esc(c.name)}</th>`).join('')}</tr>`;
-  for (let n = 1; n <= H; n++) {
+  const lastAny = Math.max(0, ...state.classes.flatMap(c => Object.keys(c.lessons).filter(k => k.startsWith(dow + '-')).map(k => Number(k.split('-')[1]))));
+  for (let n = 1; n <= Math.min(H, lastAny); n++) {
     h += `<tr><th>${n}</th>`;
     for (const c of state.classes) {
       const l = c.lessons[dow + '-' + n];
-      if (!l || !l.teacherId) { h += `<td></td>`; continue; }
+      if (!l || !l.teacherId) { h += `<td class="noclass">–</td>`; continue; }
       const it = res.items.find(i => i.classId === c.id && i.hour === n);
       if (!it) h += `<td style="background:${colorOf(l.teacherId)}"><b>${esc(l.subject)}</b><br><span>${esc(shortName(l.teacherId))}</span></td>`;
       else if (it.subId) h += `<td style="background:linear-gradient(135deg,${GREY} 50%,${colorOf(it.subId)} 50%)"><b>${esc(l.subject)}</b><br><span class="gone">${esc(shortName(l.teacherId))}</span><br><span>→ ${esc(shortName(it.subId))}</span></td>`;
@@ -187,7 +188,8 @@ function viewSchedule() {
   h += `<div class="card"><div class="row" style="justify-content:space-between"><h2>Програма на ${esc(cls.name)}</h2>
    <button class="btn del noprint" data-act="del-class" data-id="${cls.id}">Изтрий класа</button></div>
    <div class="tablewrap"><table><tr><th>Час</th>${[1, 2, 3, 4, 5].map(d => `<th>${DAYS[d]}</th>`).join('')}</tr>`;
-  for (let n = 1; n <= H; n++) {
+  const lastUsed = Math.max(0, ...Object.keys(cls.lessons).map(k => Number(k.split('-')[1])));
+  for (let n = 1; n <= Math.min(H, lastUsed + 1); n++) {
     h += `<tr><th>${n}</th>`;
     for (let d = 1; d <= 5; d++) {
       const key = d + '-' + n, l = cls.lessons[key] || { subject: '', teacherId: '' };
@@ -203,7 +205,7 @@ function viewSchedule() {
     }
     h += `</tr>`;
   }
-  return h + `</table></div><p class="muted small">Червена клетка = учителят е записан в два класа по едно и също време.</p></div>`;
+  return h + `</table></div><p class="muted small">Показани са часовете до първия свободен ред; добави предмет в него, за да се появи нов ред. Червена клетка = учителят е записан в два класа по едно и също време.</p></div>`;
 }
 
 /* ---------- Данни ---------- */
