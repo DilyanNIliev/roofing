@@ -27,6 +27,8 @@ const GREY = '#c6c9d1';
 const colorOf = id => (tById(id) || {}).color || GREY;
 const shortName = id => { const t = tById(id); if (!t) return '—'; const p = t.name.split(' '); return p.length > 1 ? p[0][0] + '. ' + p.slice(1).join(' ') : t.name; };
 const weeklyLoad = id => state.classes.reduce((n, c) => n + Object.values(c.lessons).filter(l => l.teacherId === id).length, 0);
+const byName = (a, b) => a.name.localeCompare(b.name, 'bg');
+const sortedTeachers = () => [...state.teachers].sort(byName);
 const tById = id => state.teachers.find(t => t.id === id);
 const tName = id => (tById(id) || {}).name || '—';
 const norm = Scheduler.norm;
@@ -72,7 +74,7 @@ function viewSub() {
   const abs = state.absences[date] || [];
   const H = state.settings.hours;
   const absentIds = new Set(abs.map(a => a.teacherId));
-  const opts = state.teachers.filter(t => !absentIds.has(t.id))
+  const opts = sortedTeachers().filter(t => !absentIds.has(t.id))
     .map(t => `<option value="${t.id}">${esc(t.name)}${t.kind === 'afterschool' ? ' (занималня)' : ''}</option>`).join('');
   let h = `<div class="card"><h2>Дата и отсъстващи учители</h2>
   <div class="row noprint"><input type="date" id="date" value="${date}">
@@ -101,7 +103,7 @@ function viewSub() {
       else h += `<div class="alert ok">✓ Всички часове имат заместник.</div>`;
       h += `<div class="tablewrap"><table><tr><th>Час</th><th>Клас</th><th>Предмет</th><th>Отсъства</th><th>Заместник</th><th>Основание</th></tr>`;
       for (const i of res.items) {
-        const av = Scheduler.availableAt(state, date, i.hour);
+        const av = Scheduler.availableAt(state, date, i.hour).sort(byName);
         const pin = (state.pins || {})[date + '|' + i.classId + '|' + i.hour];
         const so = av.map(t => `<option value="${t.id}" ${pin === t.id ? 'selected' : ''}>${esc(t.name)}${t.kind === 'afterschool' ? ' (занималня)' : ''}${Scheduler.hasSpec(t, i.subject) ? ' ★' : ''}</option>`).join('');
         h += `<tr><td>${i.hour}</td><td>${esc(i.className)}</td><td>${esc(i.subject)}</td><td>${esc(tName(i.absentId))}</td>
@@ -123,7 +125,7 @@ function viewSub() {
 function viewGrid(date, res) {
   const dow = Scheduler.dayOf(date), H = state.settings.hours;
   let h = `<div class="card"><h2>Визуален преглед на деня</h2>
-  <div class="legend">${state.teachers.map(t => `<span class="lg"><span class="sw" style="background:${t.color}"></span>${esc(shortName(t.id))}</span>`).join('')}</div>
+  <div class="legend">${sortedTeachers().map(t => `<span class="lg"><span class="sw" style="background:${t.color}"></span>${esc(shortName(t.id))}</span>`).join('')}</div>
   <p class="muted small">Всеки учител е със свой цвят. Час на отсъстващ учител е <b>наполовина сив</b>, а другата половина е в цвета на заместника. Изцяло сив с червено = няма заместник.</p>
   <div class="tablewrap"><table class="vgrid"><tr><th>Час</th>${state.classes.map(c => `<th>${esc(c.name)}</th>`).join('')}</tr>`;
   const lastAny = Math.max(0, ...state.classes.flatMap(c => Object.keys(c.lessons).filter(k => k.startsWith(dow + '-')).map(k => Number(k.split('-')[1]))));
@@ -154,7 +156,7 @@ function viewTeachers() {
   if (!state.teachers.length) h += `<p class="muted">Няма учители.</p>`;
   else {
     h += `<div class="tablewrap"><table><tr><th>Цвят</th><th>Име</th><th>Вид</th><th>Специалности</th><th>Часове/седм.</th><th></th></tr>`;
-    for (const t of state.teachers) {
+    for (const t of sortedTeachers()) {
       h += `<tr><td><span class="sw" style="background:${t.color}"></span></td><td><input data-t="${t.id}" data-f="name" value="${esc(t.name)}"></td>
        <td><select data-t="${t.id}" data-f="kind"><option value="teacher" ${t.kind === 'teacher' ? 'selected' : ''}>Учител</option><option value="afterschool" ${t.kind === 'afterschool' ? 'selected' : ''}>Занималня</option></select></td>
        <td><input data-t="${t.id}" data-f="subjects" list="subjects" value="${esc(t.subjects.join(', '))}" size="34"></td>
@@ -194,8 +196,8 @@ function viewSchedule() {
     for (let d = 1; d <= 5; d++) {
       const key = d + '-' + n, l = cls.lessons[key] || { subject: '', teacherId: '' };
       const conflict = l.teacherId && usage[l.teacherId + '|' + key] > 1;
-      const spec = state.teachers.filter(t => t.kind === 'teacher' && Scheduler.hasSpec(t, l.subject));
-      const other = state.teachers.filter(t => t.kind === 'teacher' && !spec.includes(t));
+      const spec = sortedTeachers().filter(t => t.kind === 'teacher' && Scheduler.hasSpec(t, l.subject));
+      const other = sortedTeachers().filter(t => t.kind === 'teacher' && !spec.includes(t));
       const o = t => `<option value="${t.id}" ${l.teacherId === t.id ? 'selected' : ''}>${esc(t.name)}</option>`;
       h += `<td><div class="cell ${conflict ? 'conflict' : ''}" style="background:${colorOf(l.teacherId)}" ${conflict ? 'title="Учителят има друг час по същото време!"' : ''}>
         <input list="subjects" data-cell="${key}" data-p="subject" value="${esc(l.subject)}" placeholder="предмет">
