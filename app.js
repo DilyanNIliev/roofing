@@ -27,6 +27,21 @@ const GREY = '#c6c9d1';
 const colorOf = id => (tById(id) || {}).color || GREY;
 const shortName = id => { const t = tById(id); if (!t) return '—'; const p = t.name.split(' '); return p.length > 1 ? p[0][0] + '. ' + p.slice(1).join(' ') : t.name; };
 const weeklyLoad = id => state.classes.reduce((n, c) => n + Object.values(c.lessons).filter(l => l.teacherId === id).length, 0) + 5 * (Number((state.teachers.find(t => t.id === id) || {}).afterHours) || 0);
+const addDays = (ds, n) => new Date(new Date(ds + 'T00:00:00Z').getTime() + n * 864e5).toISOString().slice(0, 10);
+function shiftWork(ds, n) { // следващ/предишен работен ден (n = ±1) или ±7
+  let d = addDays(ds, n);
+  while (Math.abs(n) === 1 && [0, 6].includes(new Date(d + 'T00:00:00Z').getUTCDay())) d = addDays(d, n);
+  return d;
+}
+function dayNav(date) {
+  const dow = new Date(date + 'T00:00:00Z').getUTCDay(), monday = addDays(date, dow === 0 ? -6 : 1 - dow);
+  const names = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'];
+  const days = names.map((nm, i) => {
+    const d = addDays(monday, i), n = (state.absences[d] || []).length;
+    return `<span class="chip daychip ${d === date ? 'on' : ''}" data-act="goto-date" data-date="${d}">${nm} ${d.slice(8, 10)}.${d.slice(5, 7)}${n ? ` <b class="dot">${n}</b>` : ''}</span>`;
+  }).join('');
+  return `<div class="row noprint daynav"><span class="chip daychip" data-act="day-shift" data-n="-7">‹‹ седмица</span><span class="chip daychip" data-act="day-shift" data-n="-1">‹ ден</span>${days}<span class="chip daychip" data-act="day-shift" data-n="1">ден ›</span><span class="chip daychip" data-act="day-shift" data-n="7">седмица ››</span><span class="chip daychip" data-act="goto-date" data-date="${todayStr()}">днес</span></div>`;
+}
 function workdays(from, to) {
   const out = [], a = new Date(from + 'T00:00:00Z'), b = new Date((to || from) + 'T00:00:00Z');
   for (let d = a; d <= b && out.length < 400; d = new Date(d.getTime() + 864e5)) { const w = d.getUTCDay(); if (w >= 1 && w <= 5) out.push(d.toISOString().slice(0, 10)); }
@@ -119,7 +134,8 @@ function viewSub() {
   const opts = sortedTeachers().filter(t => !absentIds.has(t.id))
     .map(t => `<option value="${t.id}">${esc(t.name)}${t.kind === 'afterschool' ? ' (занималня)' : ''}</option>`).join('');
   let h = `<div class="card"><h2>Дата и отсъстващи учители</h2>
-  <div class="row noprint"><label class="small">От <input type="date" id="date" value="${date}"></label>
+  ${dayNav(date)}
+  <div class="row noprint" style="margin-top:8px"><label class="small">От <input type="date" id="date" value="${date}"></label>
    <label class="small">до (по избор) <input type="date" id="endDate" value="${state.ui.endDate || ''}" min="${date}"></label>
    <select id="absSel"><option value="">— избери отсъстващ учител —</option>${opts}</select>
    <button class="btn pri" data-act="add-abs">Добави отсъствие${endOk ? ' за периода' : ''}</button></div>
@@ -342,6 +358,10 @@ $app.addEventListener('click', e => {
     state.classes.forEach(c => Object.values(c.lessons).forEach(l => { if (l.teacherId === id) l.teacherId = ''; }));
     Object.keys(state.absences).forEach(d => state.absences[d] = state.absences[d].filter(a => a.teacherId !== id));
     render();
+  } else if (act === 'goto-date') {
+    state.ui.date = el.dataset.date; if (state.ui.endDate && state.ui.endDate <= state.ui.date) state.ui.endDate = ''; render();
+  } else if (act === 'day-shift') {
+    state.ui.date = shiftWork(date, Number(el.dataset.n)); if (state.ui.endDate && state.ui.endDate <= state.ui.date) state.ui.endDate = ''; render();
   } else if (act === 'toggle-grid') {
     state.ui.open = state.ui.open || {};
     const t = tById(id), cur = t.kind === 'afterschool' ? state.ui.open[id] !== false : !!state.ui.open[id];
