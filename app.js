@@ -37,6 +37,7 @@ const dayLoad = id => [1, 2, 3, 4, 5].map(d => (Number((state.teachers.find(t =>
 function normCell(t) {
   const w = weeklyLoad(t.id), days = dayLoad(t.id).join('/');
   const fr = freeCount(t), tot = 5 * state.settings.hours, frc = `<td>${fr}/${tot}</td>`;
+  if (!w) return `<td><b>0</b></td><td>0/0/0/0/0</td><td>0</td>${frc}<td><span class="badge b-none">няма часове!</span></td>`;
   if (t.kind !== 'teacher' && !t.afterHours) return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td>${frc}<td class="muted">няма норма</td>`;
   const diff = w - NORM(), cls = diff < 0 ? 'b-free' : diff <= 4 ? 'b-specialist' : 'b-none', sg = diff > 0 ? '+' : '';
   return `<td><b>${w}</b></td><td>${days}</td><td>${w * WEEKS()}</td>${frc}<td><span class="badge ${cls}">${sg}${diff} ч. (${sg}${diff * WEEKS()}/год.)</span></td>`;
@@ -63,6 +64,8 @@ function scheduleGrid(t) {
     }
     g += `</tr>`;
   }
+  const ah = Number(t.afterHours) || 0;
+  for (let n = 1; n <= ah; n++) g += `<tr><th class="muted">зан. ${n}</th>${[1, 2, 3, 4, 5].map(() => `<td class="lesson" style="background:${t.color}"><b>Занималня</b></td>`).join('')}</tr>`;
   return g + `</table></div>`;
 }
 const byName = (a, b) => a.name.localeCompare(b.name, 'bg');
